@@ -20,4 +20,6 @@ def buildBoard(hostname, username, password):
     for index, row in unitsFromDB.iterrows():
         units[row["id"]] = {"loc":row["territory"],"owner":row["owner"],"type":row["type"]}
     
-    return paths, territories, units
+    countries = ["FRA","ENG","GER","RUS","TUR","ITL","AUS"]
+    
+    return paths, territories, units, countries
