@@ -49,15 +49,13 @@ def provinceIndex(territory,territories,paths,allArmies,allFleets,assignedCountr
         if territories[neighbor]["supply"]:
             score += 100
         if (armyInProvince(neighbor,allArmies) or fleetInProvince(neighbor,allFleets)) and not (myArmyInProvince(territory,assignedCountry.armies) or myFleetInProvince(neighbor,assignedCountry.fleets) or unitsInSupportingPositions(neighbor,paths,assignedCountry.armies,assignedCountry.fleets)):
-            score -= 30
+            score *= (2/3)
         for neighborNeighbor in paths[neighbor]:
             if territories[neighborNeighbor]["supply"]:
                 score += 50
             for neighborNeighborNeighbor in paths[neighborNeighbor]:
                 if territories[neighborNeighborNeighbor]["supply"]:
                     score += 25
-
-    # multiplicative effects
 
 def analyzeMoves(players,assignedCountry,territories,paths):
     moves = []
