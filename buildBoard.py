@@ -5,7 +5,7 @@ def buildBoard(hostname, username, password):
     db = mysql.connector.connect(host="f{hostname}",user="f{username}",password="f{password}")
     crsr = db.cursor()
 
-    pathsFromDB = pd.read_sql("SELECT * FROM paths", db):
+    pathsFromDB = pd.read_sql("SELECT * FROM paths", db)
     paths = dict()
     for index, row in pathsFromDB.iterrows():
         paths[row["nodeA"]] = paths[row["nodeB"]]
