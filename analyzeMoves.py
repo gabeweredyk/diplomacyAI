@@ -57,13 +57,11 @@ def provinceIndex(territory,territories,paths,allArmies,allFleets,assignedCountr
                 if territories[neighborNeighborNeighbor]["supply"]:
                     score += 25
 
-def analyzeMoves(players,assignedCountry,territories,paths):
+def analyzeMoves(players,assignedCountry,territories,paths,allArmies,allFleets):
     moves = []
     for army in assignedCountry.armies:
         for neighbor in paths[army.location]:
-            score = 0
-            
-
+            score = provinceIndex(neighbor,territories,paths,allArmies,allFleets,assignedCountry)
             # disqualifying things that reset score to 0 because it's an impossible move
             if territories[neighbor]["type"] == "Coast":
                 score = 0
