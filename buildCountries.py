@@ -7,10 +7,10 @@ def buildCountries(trustDict,units,countries):
         fleets = dict()
         armies = dict()
         for unit in units:
-            if unit["owner"] == country and unit["type"] == "Fleet":
+            if unit["owner"] == country and unit["type"] == "f":
                 unit = Fleet(unit["territory"])
                 fleets.add(unit)
-            elif unit["owner"] == country and unit["type"] == "Army":
+            elif unit["owner"] == country and unit["type"] == "a":
                 unit = Army(unit["territory"])
                 armies.add(unit)
         players[country] = Country(country,armies,fleets,trustDict[country])
