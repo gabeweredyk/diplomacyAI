@@ -23,32 +23,21 @@ def fleetInProvince(territory,allFleets):
             return True
     return False
 
-def myArmyInProvince(territory,countryArmies):
-    for army in countryArmies:
-        if army.location == territory:
-            return True
-    return False
-
-def myFleetInProvince(territory,countryFleets):
-    for fleet in countryFleets:
-        if fleet.location == territory:
-            return True
-    return False
-
-def unitsInSupportingPositions(territory,paths,countryArmies,countryFleets):
+def unitsInSupportingPositions(territory,paths,assignedCountry):
     vals = 0
     for neighbor in paths[territory]:
-        if myFleetInProvince(neighbor,countryFleets) or myArmyInProvince(neighbor,countryArmies):
+        if assignedCountry.fleetInProvince(neighbor) or assignedCountry.armyInProvince(neighbor):
             vals += 1
     return vals
 
 def provinceIndex(territory,territories,paths,allArmies,allFleets,assignedCountry):
     score = 0
+    supportingPlayers = []
     # additive/subtractive effects
     for neighbor in paths[territory]:
         if territories[neighbor]["supply"]:
             score += 100
-        if (armyInProvince(neighbor,allArmies) or fleetInProvince(neighbor,allFleets)) and not (myArmyInProvince(territory,assignedCountry.armies) or myFleetInProvince(neighbor,assignedCountry.fleets) or unitsInSupportingPositions(neighbor,paths,assignedCountry.armies,assignedCountry.fleets)):
+        if (armyInProvince(neighbor,allArmies) or fleetInProvince(neighbor,allFleets)) and not (assignedCountry.armyInProvince(territory) or assignedCountry.fleetInProvince(neighbor) or unitsInSupportingPositions(neighbor,paths,assignedCountry.armies,assignedCountry.fleets)):
             score *= (2/3)
         for neighborNeighbor in paths[neighbor]:
             if territories[neighborNeighbor]["supply"]:
@@ -63,5 +52,5 @@ def analyzeMoves(players,assignedCountry,territories,paths,allArmies,allFleets):
         for neighbor in paths[army.location]:
             score = provinceIndex(neighbor,territories,paths,allArmies,allFleets,assignedCountry)
             # disqualifying things that reset score to 0 because it's an impossible move
-            if territories[neighbor]["type"] == "Coast":
+            if territories[neighbor]["type"] == "Sea":
                 score = 0

@@ -8,7 +8,7 @@ def buildBoard(hostname, username, password):
     pathsFromDB = pd.read_sql("SELECT * FROM paths", db)
     paths = dict()
     for index, row in pathsFromDB.iterrows():
-        paths[row["nodeA"]] = paths[row["nodeB"]]
+        paths[row["nodeA"]] = row["nodeB"]
 
     territoriesFromDB = pd.read_sql("SELECT * FROM territories", db)
     territories = dict()
