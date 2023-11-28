@@ -4,15 +4,15 @@ from country import Country, Fleet, Army
 def buildCountries(trustDict,units,countries):
     players = dict()
     for country in countries:
-        fleets = dict()
-        armies = dict()
+        fleets = []
+        armies = []
         for unit in units:
-            if unit["owner"] == country and unit["type"] == "f":
-                unit = Fleet(unit["territory"])
-                fleets.add(unit)
-            elif unit["owner"] == country and unit["type"] == "a":
-                unit = Army(unit["territory"])
-                armies.add(unit)
+            if units[unit]["owner"] == country and units[unit]["type"] == "f":
+                unit = Fleet(units[unit]["loc"],country)
+                fleets.append(unit)
+            elif units[unit]["owner"] == country and units[unit]["type"] == "a":
+                unit = Army(units[unit]["loc"],country)
+                armies.append(unit)
         players[country] = Country(country,armies,fleets,trustDict[country])
     
     return players
