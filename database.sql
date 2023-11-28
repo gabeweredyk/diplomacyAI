@@ -14,11 +14,12 @@ CREATE TABLE territories
     PRIMARY KEY (id)
 );
 
-CREATE TABLE unit
+CREATE TABLE units
 (
     owner VARCHAR(7),
     territory CHAR(3),
-    PRIMARY KEY(ownder, territory)
+    type CHAR(1), -- A for army, F for fleet
+    PRIMARY KEY(owner, territory)
 );
 
 CREATE TABLE teams
