@@ -115,6 +115,14 @@ def provDanger(ter,paths,players):
                     danger += 0.4 * player.trust
     return danger
 
+def immediateDanger(ter,paths,players):
+    danger = 0.0
+    for player in players.values():
+        for neighbor in paths[ter]:
+            if player.armyInProvince(neighbor) or player.fleetInProvince(neighbor):
+                danger += 1.0 * player.trust
+    return danger
+
 def analyzeMovesInitial(players,assignedCountry,territories,paths):
     unconsideredUnits = players[assignedCountry].armies + players[assignedCountry].fleets
     moves = []
@@ -154,11 +162,11 @@ def analyzeMovesInitial(players,assignedCountry,territories,paths):
 
         # calculate province danger + allocate support units
         
-        nextStepDanger = provDanger(pathToTarget[1],paths,players)
+        nextStepDanger = immediateDanger(pathToTarget[1],paths,players)
         finalStepDanger = provDanger(pathToTarget[-1],paths,players)
-        if nextStepDanger > 0.5:
+        if nextStepDanger > 0.9:
             for unit in unconsideredUnits:
-                if unit.inSupportingLoc(pathToTarget[0],paths,territories):
+                if unit.inSupportingLoc(pathToTarget[1],paths,territories) and unit.loc != pathToTarget[0]:
                     support = ("support",pathToTarget[0],pathToTarget[1],unit.loc)
                     moves.append(support)
                     unconsideredUnits.remove(unit)
