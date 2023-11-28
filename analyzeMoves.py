@@ -146,7 +146,7 @@ def analyzeMovesInitial(players,assignedCountry,territories,paths):
                 dists.append(x)
             dists.sort()
             for x in dists:
-                if x[2] >= 200 and x[0] != 0:
+                if x[2] >= 200 and x[0] != 0 and territories[x[1]]["owner"] != assignedCountry:
                     nearestValProv = x[1]
                     break
             pathToTarget = shortestPath(unit.loc,nearestValProv,previousNodes)
