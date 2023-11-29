@@ -129,10 +129,6 @@ def analyzeMovesInitial(players,assignedCountry,territories,paths):
     while unconsideredUnits:
         targets = []
         # find nearest valuable province for each unit
-        tersToConsider = dict()
-        for ter in territories:
-            if territories[ter]["owner"] != assignedCountry:
-                tersToConsider[ter] = territories[ter]
         
         for unit in unconsideredUnits:
             nearestValProv = unit.loc
@@ -173,19 +169,15 @@ def analyzeMovesInitial(players,assignedCountry,territories,paths):
                     break
 
         elif finalStepDanger > 0.5:
-            noninterferingTers = dict()
-            for ter in territories:
-                if ter not in pathToTarget[1:]:
-                    noninterferingTers[ter] = territories[ter]
             
             supportPaths = []
             for unit in unconsideredUnits:
                 if unit.loc != pathToTarget[0]:
                     goalProv = unit.loc
                     if unit.type == "a":
-                        previousNodes, distToAll = armyDistBetweenTerritories(unit.loc,paths,noninterferingTers)
+                        previousNodes, distToAll = armyDistBetweenTerritories(unit.loc,paths,territories)
                     if unit.type == "f":
-                        previousNodes, distToAll = fleetsDistBetweenTerritories(unit.loc,paths,noninterferingTers)
+                        previousNodes, distToAll = fleetsDistBetweenTerritories(unit.loc,paths,territories)
                     dists = []
                     for dist in distToAll:
                         if dist in paths[pathToTarget[-1]]:
