@@ -1,4 +1,4 @@
-CREATE TABLE neighbors 
+CREATE TABLE paths 
 (
     nodeA	CHAR(3),
     nodeB	CHAR(3)
@@ -10,13 +10,13 @@ CREATE TABLE territories
     id CHAR(3),
     type CHAR(1), -- L for land, W for water, C for coast/canal
     supply INT(1),
-    owner VARCHAR(7),
+    owner CHAR(3),
     PRIMARY KEY (id)
 );
 
 CREATE TABLE units
 (
-    owner VARCHAR(7),
+    owner CHAR(3),
     territory CHAR(3),
     type CHAR(1), -- A for army, F for fleet
     PRIMARY KEY(owner, territory)
@@ -24,15 +24,15 @@ CREATE TABLE units
 
 CREATE TABLE teams
 (
-    id VARCHAR(7),
+    id CHAR(3),
     password CHAR(64),
     PRIMARY KEY(id)
 );
 
 CREATE TABLE messages
 (
-    sender VARCHAR(7),
-    recipient VARCHAR(7),
+    sender CHAR(3),
+    recipient CHAR(3),
     message TINYTEXT,
     timestamp DATETIME,
 );
