@@ -12,8 +12,8 @@ boardSectorTers = {"mos":{"supply":True,"type":"Land","owner":"RUS"},"war":{"sup
                    "bud":{"supply":True,"type":"Land","owner":"AUS"},"ser":{"supply":True,"type":"Land","owner":"None"},
                    "alb":{"supply":False,"type":"Coast","owner":"None"},"gre":{"supply":True,"type":"Coast","owner":"None"},
                    "bul":{"supply":True,"type":"Coast","owner":"None"},"con":{"supply":True,"type":"Coast","owner":"TUR"},
-                   "ank":{"supply":True,"type":"Coast","owner":"None"},"ion":{"supply":False,"type":"Sea","owner":"None"},
-                   "aeg":{"supply":False,"type":"Sea","owner":"None"},"smy":{"supply":True,"type":"Coast","owner":"None"},
+                   "ank":{"supply":True,"type":"Coast","owner":"TUR"},"ion":{"supply":False,"type":"Sea","owner":"None"},
+                   "aeg":{"supply":False,"type":"Sea","owner":"None"},"smy":{"supply":True,"type":"Coast","owner":"TUR"},
                    "syr":{"supply":False,"type":"Coast","owner":"None"},"eas":{"supply":False,"type":"Sea","owner":"None"}}
 
 boardSectorPaths = {"mos":set(["war","ukr","sev"]),"war":set(["mos","ukr","gal"]),"gal":set(["war","ukr","rum","bud"]),
