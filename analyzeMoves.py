@@ -1,8 +1,7 @@
 from buildBoard import buildBoard
 from country import *
-import mysql
-import pandas as pd
 import sys
+import random
 
 def allArmiesAllFleets(players):
     allArmies = []

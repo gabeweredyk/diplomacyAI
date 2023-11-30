@@ -29,10 +29,10 @@ for territory in boardSectorTers:
         terScore = provinceIndex(territory,boardSectorTers,boardSectorPaths)
         boardSectorTers[territory]["score"] = terScore
 
-units = {"1":{"loc":"gal","owner":"RUS","type":"a"},"2":{"loc":"sev","owner":"RUS","type":"a"},
-         "3":{"loc":"rum","owner":"RUS","type":"f"},"4":{"loc":"ser","owner":"AUS","type":"a"},
-         "5":{"loc":"bul","owner":"TUR","type":"a"},"6":{"loc":"bla","owner":"TUR","type":"f"},
-         "7":{"loc":"arm","owner":"TUR","type":"a"}}
+units = {"1":{"loc":"war","owner":"RUS","type":"a"},"2":{"loc":"mos","owner":"RUS","type":"a"},
+         "3":{"loc":"sev","owner":"RUS","type":"f"},"4":{"loc":"bud","owner":"AUS","type":"a"},
+         "5":{"loc":"con","owner":"TUR","type":"a"},"6":{"loc":"ank","owner":"TUR","type":"f"},
+         "7":{"loc":"smy","owner":"TUR","type":"a"}}
 
 players = buildCountries(trustDict,units,countries)
 
