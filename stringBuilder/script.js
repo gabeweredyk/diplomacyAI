@@ -191,8 +191,8 @@ function buildString(){
     var suggested, motivations, offers;
     
 
-    let selfStarts = ['I might try to ', 'I want to ', 'I will '];
-    let involvedStarts = ['thinking of ', 'should ', 'must '];
+    let selfStarts = ['I might try to', 'I want to', 'I will'];
+    let involvedStarts = ['might want to', 'should', 'must'];
     unitDesc = " the ";
 
     var pronoun = "I ";
@@ -212,7 +212,7 @@ function buildString(){
     offers = getMoves(2);
     message += suggested;
     if (motivations != ""){
-        message += "so that " + pronoun + " can " + motivations;
+        message += " so that " + pronoun + " can " + motivations;
     }
     if (offers != ""){
         message += ". In return, I'll " + offers;
@@ -261,7 +261,7 @@ function getMoves(l){
                         message += " move" + unitDesc  + move.unitType + " from " + move.terr[0] + " to " + move.terr[1];
                         break;
                     case "Support":
-                        message += " support" + unitDesc + move.unitType + " in " + move.terr[1] + " advancing into " + move.terr[2] + "with the unit in" + move.terr[0];
+                        message += " support" + unitDesc + move.unitType + " in " + move.terr[1] + " advancing into " + move.terr[2] + " with the unit in " + move.terr[0];
                         break;
                     case "Convoy":
                         message += " convoy" + unitDesc + move.unitType + " in " + move.terr[1] + " to " + move.terr[2] + " with the fleet in " + move.terr[0]; 
@@ -285,7 +285,7 @@ function getMoves(l){
                         break;
                     case recipient:
                         if (!selfActor && involvedActor){
-                            message += (first && !(demandLevel == 2)) ? " to" : ""; 
+                            message += (first && (demandLevel == 0)) ? " to" : ""; 
                             message += (move.stand != "Advocate") ? " not" : "";
                             message += " own ";
                         }
@@ -296,8 +296,9 @@ function getMoves(l){
                         }
                         break;
                     default:
+                        message += "make ";
                         message += move.country;
-                        message += (move.stand == "Advocate") ? " to have " : " to not have "; 
+                        message += (move.stand == "Advocate") ? " have " : " not have "; 
                 }
                 message += move.territory;
                 break;

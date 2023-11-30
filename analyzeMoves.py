@@ -122,6 +122,9 @@ def immediateDanger(ter,paths,players):
                 danger += 1.0 * 1/player.trust
     return danger
 
+def getRandomMove():
+    return 0
+
 def analyzeMovesInitial(players,assignedCountry,territories,paths):
     otherPlayers = dict()
     for player in players:
@@ -167,7 +170,7 @@ def analyzeMovesInitial(players,assignedCountry,territories,paths):
 
         # narrow down to nearest target and finds the value of the movement
         targets.sort()
-        target = targets[0]
+        target = targets[getRandomMove()]
         pathToTarget = target[1]
         moveVal = territories[target[2]]["score"]/(target[0] ** 2)
         prelimMove = ("move",pathToTarget[0],pathToTarget[1])
