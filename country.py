@@ -47,3 +47,12 @@ class Country(object):
             if fleet.loc == p:
                 return fleet
         return None
+    
+    def unitInProvince(self, p):
+        for fleet in self.fleets:
+            if fleet.loc == p:
+                return True
+        for army in self.armies:
+            if army.loc == p:
+                return True
+        return False

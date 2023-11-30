@@ -112,7 +112,7 @@ def provDanger(ter,paths,players):
                 danger += 1.0 * player.trust
             for neighborNeighbor in paths[neighbor]:
                 if player.armyInProvince(neighborNeighbor) or player.fleetInProvince(neighborNeighbor):
-                    danger += 0.4 * player.trust
+                    danger += 0.4 * 1/player.trust
     return danger
 
 def immediateDanger(ter,paths,players):
@@ -120,10 +120,15 @@ def immediateDanger(ter,paths,players):
     for player in players.values():
         for neighbor in paths[ter]:
             if player.armyInProvince(neighbor) or player.fleetInProvince(neighbor):
-                danger += 1.0 * player.trust
+                danger += 1.0 * 1/player.trust
     return danger
 
 def analyzeMovesInitial(players,assignedCountry,territories,paths):
+    otherPlayers = dict()
+    for player in players:
+        if player != assignedCountry:
+            otherPlayers[player] = players[player]
+    
     unconsideredUnits = players[assignedCountry].armies + players[assignedCountry].fleets
     moves = []
     while unconsideredUnits:
@@ -138,12 +143,16 @@ def analyzeMovesInitial(players,assignedCountry,territories,paths):
                 previousNodes, distToAll = fleetsDistBetweenTerritories(unit.loc,paths,territories)
             dists = []
             for dist in distToAll:
-                x = (distToAll[dist],dist,territories[dist]["score"]) # 3-tuple with distance, target province name, target province score
-                dists.append(x)
+                if distToAll[dist] != 0:
+                    evaluation = territories[dist]["score"] / (distToAll[dist]) ** 2
+                    x = (evaluation,dist) # 3-tuple with distance, target province name, target province score
+                    dists.append(x)
             dists.sort()
-            for x in dists:
-                if x[2] >= 200 and x[0] != 0 and territories[x[1]]["owner"] != assignedCountry:
-                    nearestValProv = x[1]
+            for prelimTarget in dists:
+                prelimTarget = prelimTarget[1]
+                pathTo = shortestPath(unit.loc,prelimTarget,previousNodes)
+                if not players[assignedCountry].unitInProvince(pathTo[1]):
+                    nearestValProv = prelimTarget
                     break
             pathToTarget = shortestPath(unit.loc,nearestValProv,previousNodes)
             target = (distToAll[nearestValProv],pathToTarget,nearestValProv,unit)
@@ -153,53 +162,70 @@ def analyzeMovesInitial(players,assignedCountry,territories,paths):
         targets.sort()
         target = targets[0]
         pathToTarget = target[1]
-        moveVal = territories[target[2]]["score"]
+        moveVal = territories[target[2]]["score"]/(target[0] ** 2)
         prelimMove = ("move",pathToTarget[0],pathToTarget[1])
 
-        # calculate province danger + allocate support units
-        
-        nextStepDanger = immediateDanger(pathToTarget[1],paths,players)
-        finalStepDanger = provDanger(pathToTarget[-1],paths,players)
-        if nextStepDanger > 0.9:
-            for unit in unconsideredUnits:
-                if unit.inSupportingLoc(pathToTarget[1],paths,territories) and unit.loc != pathToTarget[0]:
-                    support = ("support",pathToTarget[0],pathToTarget[1],unit.loc)
-                    moves.append(support)
-                    unconsideredUnits.remove(unit)
-                    break
+        # calculate current province danger for the unit that might move and consider if it should hold instead of moving
+        currentDanger = immediateDanger(target[-1].loc,paths,otherPlayers)
+        holdVal = currentDanger*100
+        prelimHold = ("hold",target[-1].loc)
+        if territories[target[-1].loc]["owner"] != assignedCountry and territories[target[-1].loc]["supply"]:
+            holdVal = sys.maxsize
 
-        elif finalStepDanger > 0.5:
-            
-            supportPaths = []
-            for unit in unconsideredUnits:
-                if unit.loc != pathToTarget[0]:
-                    goalProv = unit.loc
-                    if unit.type == "a":
-                        previousNodes, distToAll = armyDistBetweenTerritories(unit.loc,paths,territories)
-                    if unit.type == "f":
-                        previousNodes, distToAll = fleetsDistBetweenTerritories(unit.loc,paths,territories)
-                    dists = []
-                    for dist in distToAll:
-                        if dist in paths[pathToTarget[-1]]:
-                            x = (distToAll[dist],dist)
-                            dists.append(x)
-                    dists.sort()
-                    goalProv = dists[0][1]
-                    pathToSupport = shortestPath(unit.loc,goalProv,previousNodes)
-                    supportPath = (distToAll[goalProv],pathToSupport,goalProv,unit)
-                    supportPaths.append(supportPath)
-                    break
-            supportPaths.sort()
-            supportPath = supportPaths[0]
-            pathToSupport = supportPath[1]
-            support = ("move",supportPath[0],pathToSupport[1])
-            moves.append(support)
-            unconsideredUnits.remove(supportPath[-1])
+        # calculate province danger + allocate support units
+        if moveVal > holdVal:
+            nextStepDanger = immediateDanger(pathToTarget[1],paths,otherPlayers)
+            finalStepDanger = provDanger(pathToTarget[-1],paths,otherPlayers)
+            if nextStepDanger > 0.9:
+                for unit in unconsideredUnits:
+                    if unit.inSupportingLoc(pathToTarget[1],paths,territories) and unit.loc != pathToTarget[0]:
+                        support = ("support move",pathToTarget[0],pathToTarget[1],unit.loc)
+                        moves.append(support)
+                        unconsideredUnits.remove(unit)
+                        break
+
+            elif finalStepDanger > 0.5:
+                
+                supportPaths = []
+                for unit in unconsideredUnits:
+                    if unit.loc != pathToTarget[0]:
+                        goalProv = unit.loc
+                        if unit.type == "a":
+                            previousNodes, distToAll = armyDistBetweenTerritories(unit.loc,paths,territories)
+                        if unit.type == "f":
+                            previousNodes, distToAll = fleetsDistBetweenTerritories(unit.loc,paths,territories)
+                        dists = []
+                        for dist in distToAll:
+                            if dist in paths[pathToTarget[-1]]:
+                                x = (distToAll[dist],dist)
+                                dists.append(x)
+                        dists.sort()
+                        goalProv = dists[0][1]
+                        pathToSupport = shortestPath(unit.loc,goalProv,previousNodes)
+                        supportPath = (distToAll[goalProv],pathToSupport,goalProv,unit)
+                        supportPaths.append(supportPath)
+                        break
+                supportPaths.sort()
+                supportPath = supportPaths[0]
+                pathToSupport = supportPath[1]
+                support = ("move",pathToSupport[0],pathToSupport[1])
+                moves.append(support)
+                unconsideredUnits.remove(supportPath[-1])
         
-        # calculates danger to current provinces
-        # calculates usefulness of a hold or a support hold
+        if holdVal >= moveVal:
+            currentDanger = int(currentDanger)
+            for i in range(currentDanger):
+                for unit in unconsideredUnits:
+                    if unit.inSupportingLoc(prelimHold[1],paths,territories):
+                        support = ("support hold",prelimHold[1],unit.loc)
+                        unconsideredUnits.remove(unit)
+                        break
+        
         # adds the move or hold to the moves list and removes the unit from the unconsidered units
-        move = prelimMove
+        if holdVal >= moveVal:
+            move = prelimHold
+        if moveVal > holdVal:
+            move = prelimMove
         moves.append(move)
         unconsideredUnits.remove(players[assignedCountry].unitAtLocation(move[1]))
     return moves
