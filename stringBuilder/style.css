@@ -1,0 +1,7 @@
+.moveHolder > div {
+    border-color: black;
+    border-style: solid;
+    border-width: 2px;
+    margin: 4px;
+    padding: 2px;
+}

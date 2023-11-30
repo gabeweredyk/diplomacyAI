@@ -3,9 +3,22 @@
 <html>
     <head>
         <script type="text/javascript" src="script.js"></script>
+        <link rel="stylesheet" href="style.css">
     </head>
     <body onbodyload="start()">
         <form>
+            <label for="self"><b>Your Country:</b></label>
+
+            <select name="self" id ="self">
+                <option value="Austria">Austria</option>
+                <option value="England">England</option>
+                <option value="France">France</option>
+                <option value="Germany">Germany</option>
+                <option value="Italy">Italy</option>
+                <option value="Russia">Russia</option>
+                <option value="Turkey">Turkey</option>
+            </select>
+
             <label for="recipient"><b>Recipient's Country:</b></label>
 
             <select name="recipient" id ="recipient">
@@ -31,24 +44,26 @@
                 <option value=2>Demand</option>
             </select>
 
-            <br />
+            <br /> <br />
             <b>Proposed Actions:</b>
-            <div id="0">
+            <div class="moveHolder" id="0">
                 
             </div>
-            <input type="button" value="Add Move" onclick="addMove(0)"> <input type="button" value="Add Territory"> <input type="button" value="Add ">
-            <br> <b>Motivations:</b>
-            <div id="motivations">
+            <input type="button" value="Add Move" onclick="addMove(0)"> <input type="button" value="Add Territory" onclick="addTerritory(0)"> <input type="button" value="Remove" onclick="remove(0)">
+            <br /> <br />
+            <b>Motivations:</b>
+            <div class="moveHolder" id="1">
                 
             </div>
-            <input type="button" value="Add Move" onclick="addMove('motivations')"> <input type="button" value="Add Territory"> <input type="button" value="Add ">
+            <input type="button" value="Add Move" onclick="addMove(1)"> <input type="button" value="Add Territory" onclick="addTerritory(1)"> <input type="button" value="Remove" onclick="remove(1)">
+            <br /> <br />
             <br> <b>Offers:</b>
-            <div id="motivations">
+            <div class="moveHolder" id="2">
                 
             </div>
-            <input type="button" value="Add Move" onclick="addMove('motivations')"> <input type="button" value="Add Territory"> <input type="button" value="Add ">
-            <br>
-            <input type="button" onclick="buildString()" value="Submit!">
+            <input type="button" value="Add Move" onclick="addMove(2)"> <input type="button" value="Add Territory" onclick="addTerritory(2)"> <input type="button" value="Remove" onclick="remove(2)">
+            <br> <br />
+            <input type="button" onclick="buildString()" value="Submit!"> <input type="button" onclick="navigator.clipboard.writeText('Affirmative')" value="Affirmative" /> <input type="button" onclick="navigator.clipboard.writeText('Negative')" value="Negative" />
         </form>
         <p id="output"></p>
     </body>
