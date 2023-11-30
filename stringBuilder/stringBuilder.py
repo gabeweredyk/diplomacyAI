@@ -9,7 +9,8 @@ neigh = f.read().split("\n")
 for i in neigh:
     arr = i.split(",")
     neighbors[arr[0]].append(arr[1])
+territories.sort()
+print(territories)
 
-print(neighbors["con"])
 
-
+['adr', 'aeg', 'alb', 'ank', 'apu', 'arm', 'bal', 'bar', 'bel', 'ber', 'bla', 'boh', 'bot', 'bre', 'bud', 'bul', 'bur', 'cly', 'con', 'den', 'eas', 'edi', 'eng', 'fin', 'gal', 'gas', 'gre', 'hel', 'hol', 'ion', 'iri', 'kie', 'lon', 'lvn', 'lvp', 'lyo', 'mao', 'mar', 'mos', 'mun', 'naf', 'nao', 'nap', 'nth', 'nwg', 'nwy', 'par', 'pic', 'pie', 'por', 'pru', 'rom', 'ruh', 'rum', 'ser', 'sev', 'sil', 'ska', 'smy', 'spa', 'stp', 'swe', 'syr', 'tri', 'tun', 'tus', 'tyr', 'tys', 'ukr', 'ven', 'vie', 'wal', 'war', 'wes', 'yor']
