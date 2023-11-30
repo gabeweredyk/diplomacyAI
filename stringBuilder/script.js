@@ -212,7 +212,7 @@ function buildString(){
     offers = getMoves(2);
     message += suggested;
     if (motivations != ""){
-        message += "so that " + pronoun + " can " + motivations;
+        message += " so that " + pronoun + " can " + motivations;
     }
     if (offers != ""){
         message += ". In return, I'll " + offers;
@@ -261,7 +261,7 @@ function getMoves(l){
                         message += " move" + unitDesc  + move.unitType + " from " + move.terr[0] + " to " + move.terr[1];
                         break;
                     case "Support":
-                        message += " support" + unitDesc + move.unitType + " in " + move.terr[1] + " advancing into " + move.terr[2] + "with the unit in" + move.terr[0];
+                        message += " support" + unitDesc + move.unitType + " in " + move.terr[1] + " advancing into " + move.terr[2] + " with the unit in " + move.terr[0];
                         break;
                     case "Convoy":
                         message += " convoy" + unitDesc + move.unitType + " in " + move.terr[1] + " to " + move.terr[2] + " with the fleet in " + move.terr[0]; 

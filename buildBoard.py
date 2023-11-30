@@ -1,5 +1,7 @@
-import mysql
-import pandas as pd
+
+tNames = ['nao', 'nwg', 'bar', 'cly', 'lvp', 'edi', 'yor', 'wal', 'iri', 'mao', 'eng', 'lon', 'nth', 'nwy', 'stp', 'fin', 'swe', 'ska', 'bot', 'den', 'lvn', 'bal', 'hel', 'bre', 'pic', 'bel', 'hol', 'kie', 'par', 'bur', 'ruh', 'ber', 'pru', 'mos', 'war', 'ukr', 'sev', 'mun', 'sil', 'gas', 'spa', 'por', 'mar', 'pie', 'tyr', 'boh', 'gal', 'vie', 'tri', 'ven', 'lyo', 'tus', 'wes', 'naf', 'tun', 'tys', 'rom', 'nap', 'apu', 'adr', 'alb', 'bud', 'ser', 'gre', 'rum', 'bla', 'ank', 'arm', 'syr', 'eas', 'ion', 'bul', 'con', 'aeg', 'smy']
+
+tObjects = [ { "supply": 0, "type": "W", "owner": "" }, { "supply": 0, "type": "W", "owner": "" }, { "supply": 0, "type": "W", "owner": "" }, { "supply": 0, "type": "L", "owner": "" }, { "supply": 1, "type": "L", "owner": "ENG" }, { "supply": 0, "type": "W", "owner": "" }, { "supply": 1, "type": "L", "owner": "" }, { "supply": 1, "type": "L", "owner": "ENG" }, { "supply": 0, "type": "W", "owner": "" }, { "supply": 0, "type": "L", "owner": "" }, { "supply": 0, "type": "L", "owner": "" }, { "supply": 0, "type": "W", "owner": "" }, { "supply": 1, "type": "L", "owner": "" }, { "supply": 0, "type": "L", "owner": "" }, { "supply": 1, "type": "L", "owner": "RUS" }, { "supply": 1, "type": "L", "owner": "ENG" }, { "supply": 1, "type": "C", "owner": "" }, { "supply": 0, "type": "W", "owner": "" }, { "supply": 0, "type": "W", "owner": "" }, { "supply": 0, "type": "W", "owner": "" }, { "supply": 0, "type": "W", "owner": "" }, { "supply": 1, "type": "L", "owner": "" }, { "supply": 1, "type": "L", "owner": "" }, { "supply": 1, "type": "L", "owner": "FRA" }, { "supply": 0, "type": "L", "owner": "" }, { "supply": 0, "type": "L", "owner": "" }, { "supply": 1, "type": "L", "owner": "GER" }, { "supply": 1, "type": "L", "owner": "GER" }, { "supply": 0, "type": "L", "owner": "" }, { "supply": 0, "type": "L", "owner": "" }, { "supply": 1, "type": "L", "owner": "FRA" }, { "supply": 0, "type": "L", "owner": "" }, { "supply": 1, "type": "L", "owner": "RUS" }, { "supply": 1, "type": "L", "owner": "RUS" }, { "supply": 0, "type": "L", "owner": "" }, { "supply": 1, "type": "L", "owner": "GER" }, { "supply": 0, "type": "L", "owner": "" }, { "supply": 1, "type": "L", "owner": "FRA" }, { "supply": 0, "type": "L", "owner": "" }, { "supply": 0, "type": "L", "owner": "" }, { "supply": 0, "type": "L", "owner": "" }, { "supply": 0, "type": "L", "owner": "" }, { "supply": 1, "type": "L", "owner": "RUS" }, { "supply": 0, "type": "L", "owner": "" }, { "supply": 1, "type": "L", "owner": "AUS" }, { "supply": 1, "type": "L", "owner": "" }, { "supply": 0, "type": "W", "owner": "" }, { "supply": 0, "type": "L", "owner": "" }, { "supply": 1, "type": "L", "owner": "" }, { "supply": 1, "type": "L", "owner": "" }, { "supply": 1, "type": "L", "owner": "AUS" }, { "supply": 1, "type": "L", "owner": "AUS" }, { "supply": 0, "type": "W", "owner": "" }, { "supply": 1, "type": "L", "owner": "ITL" }, { "supply": 1, "type": "L", "owner": "" }, { "supply": 0, "type": "L", "owner": "" }, { "supply": 1, "type": "L", "owner": "" }, { "supply": 0, "type": "W", "owner": "" }, { "supply": 0, "type": "W", "owner": "" }, { "supply": 0, "type": "W", "owner": "" }, { "supply": 0, "type": "L", "owner": "" }, { "supply": 1, "type": "L", "owner": "" }, { "supply": 1, "type": "C", "owner": "TUR" }, { "supply": 1, "type": "L", "owner": "TUR" }, { "supply": 1, "type": "L", "owner": "ITL" }, { "supply": 0, "type": "L", "owner": "" }, { "supply": 0, "type": "W", "owner": "" }, { "supply": 0, "type": "W", "owner": "" }, { "supply": 1, "type": "L", "owner": "TUR" }, { "supply": 1, "type": "L", "owner": "ITL" }, { "supply": 0, "type": "L", "owner": "" }, { "supply": 1, "type": "L", "owner": "" }, { "supply": 0, "type": "W", "owner": "" }, { "supply": 0, "type": "W", "owner": "" }, { "supply": 0, "type": "L", "owner": "" } ]
 
 def provinceIndex(territory,territories,paths):
     score = 0
@@ -29,22 +31,28 @@ def buildBoard(hostname, username, password):
     db = mysql.connector.connect(host="f{hostname}",user="f{username}",password="f{password}")
     crsr = db.cursor()
 
-    pathsFromDB = pd.read_sql("SELECT * FROM paths", db)
     paths = dict()
-    for index, row in pathsFromDB.iterrows():
-        paths[row["nodeA"]] = row["nodeB"]
+    for i in territories:
+        paths[i] = []
 
-    territoriesFromDB = pd.read_sql("SELECT * FROM territories", db)
+    neigh = f.read().split("\n")
+    for i in neigh:
+        arr = i.split(",")
+        paths[arr[0]].append(arr[1])
+
     territories = dict()
-    for index, row in territoriesFromDB.iterrows():
-        territories[row["name"]] = {"supply":row["supply"],"type":row["type"],"owner":row["owner"]}
+
+    for i in range(75):
+        territories[tNames[i]] = tObjects[i]
     for territory in territories:
         terScore = provinceIndex(territory,territories,paths)
         territories[territory]["score"] = terScore
     
-    unitsFromDB = pd.read_sql("SELECT * FROM units", db)
+
+
     units = dict()
-    for index, row in unitsFromDB.iterrows():
-        units[row["id"]] = {"loc":row["territory"],"owner":row["owner"],"type":row["type"]}
+    units = [ { "loc": "lvp", "owner": "ENG", "type": "A" }, { "loc": "edi", "owner": "ENG", "type": "F" }, { "loc": "lon", "owner": "ENG", "type": "F" }, { "loc": "bre", "owner": "FRA", "type": "F" }, { "loc": "par", "owner": "FRA", "type": "A" }, { "loc": "mar", "owner": "FRA", "type": "A" }, { "loc": "kie", "owner": "GER", "type": "F" }, { "loc": "ber", "owner": "GER", "type": "A" }, { "loc": "mun", "owner": "GER", "type": "A" }, { "loc": "war", "owner": "RUS", "type": "A" }, { "loc": "mos", "owner": "RUS", "type": "A" }, { "loc": "sev", "owner": "RUS", "type": "F" }, { "loc": "stp", "owner": "RUS", "type": "F" }, { "loc": "con", "owner": "TUR", "type": "A" }, { "loc": "ank", "owner": "TUR", "type": "F" }, { "loc": "amy", "owner": "TUR", "type": "A" }, { "loc": "ven", "owner": "ITL", "type": "A" }, { "loc": "rom", "owner": "ITL", "type": "A" }, { "loc": "nap", "owner": "ITL", "type": "F" }, { "loc": "vie", "owner": "AUS", "type": "A" }, { "loc": "bud", "owner": "AUS", "type": "A" }, { "loc": "tri", "owner": "AUS", "type": "F" } ]
+
     
     return paths, territories, units
+
