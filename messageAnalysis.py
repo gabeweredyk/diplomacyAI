@@ -3,4 +3,7 @@ from country import *
 from analyzeMoves import *
 
 def messageAnalysis(prelimMoves,players,assignedCountry,territories,paths,trustDict):
-    pass
+    for player in players:
+        pass
+    while True:
+        pass

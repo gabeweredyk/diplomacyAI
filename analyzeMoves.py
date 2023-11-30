@@ -122,6 +122,9 @@ def immediateDanger(ter,paths,players):
                 danger += 1.0 * 1/player.trust
     return danger
 
+def getRandomMove():
+    return 0
+
 def analyzeMovesInitial(players,assignedCountry,territories,paths):
     otherPlayers = dict()
     for player in players:
@@ -136,17 +139,25 @@ def analyzeMovesInitial(players,assignedCountry,territories,paths):
         
         for unit in unconsideredUnits:
             nearestValProv = unit.loc
+
+            # finds the distance from the unit to all territories on the
             if unit.type == "a":
                 previousNodes, distToAll = armyDistBetweenTerritories(unit.loc,paths,territories)
             if unit.type == "f":
                 previousNodes, distToAll = fleetsDistBetweenTerritories(unit.loc,paths,territories)
+
+            # creates a list of 2-tuples of the evaluation score and the name of each province that it could move
             dists = []
             for dist in distToAll:
                 if distToAll[dist] != 0:
-                    evaluation = territories[dist]["score"] / (distToAll[dist]) ** 2
-                    x = (evaluation,dist) # 3-tuple with distance, target province name, target province score
+                    evaluation = territories[dist]["score"] / (distToAll[dist] ** 2)
+                    x = (evaluation,dist) # 2-tuple with movementEval,provinceName
                     dists.append(x)
-            dists.sort()
+
+            # sorts that by the evaluation score
+            dists.sort(reverse=True)
+
+            # goes through that list, chooses the first where the next step along the path isn't occupied by another unit as its target
             for prelimTarget in dists:
                 prelimTarget = prelimTarget[1]
                 pathTo = shortestPath(unit.loc,prelimTarget,previousNodes)
@@ -159,7 +170,7 @@ def analyzeMovesInitial(players,assignedCountry,territories,paths):
 
         # narrow down to nearest target and finds the value of the movement
         targets.sort()
-        target = targets[0]
+        target = targets[getRandomMove()]
         pathToTarget = target[1]
         moveVal = territories[target[2]]["score"]/(target[0] ** 2)
         prelimMove = ("move",pathToTarget[0],pathToTarget[1])
@@ -184,14 +195,13 @@ def analyzeMovesInitial(players,assignedCountry,territories,paths):
                         break
 
             elif finalStepDanger > 0.5:
-                
                 supportPaths = []
                 for unit in unconsideredUnits:
                     if unit.loc != pathToTarget[0]:
                         goalProv = unit.loc
-                        if unit.type == "a":
+                        if unit.type == "A":
                             previousNodes, distToAll = armyDistBetweenTerritories(unit.loc,paths,territories)
-                        if unit.type == "f":
+                        if unit.type == "F":
                             previousNodes, distToAll = fleetsDistBetweenTerritories(unit.loc,paths,territories)
                         dists = []
                         for dist in distToAll:
