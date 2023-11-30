@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <script type="text/javascript" src="script.js"></script>
+    </head>
+    <body onbodyload="start()">
+        <form>
+            <label for="recipient"><b>Recipient's Country:</b></label>
+
+            <select name="recipient" id ="recipient">
+                <option value="Austria">Austria</option>
+                <option value="England">England</option>
+                <option value="France">France</option>
+                <option value="Germany">Germany</option>
+                <option value="Italy">Italy</option>
+                <option value="Russia">Russia</option>
+                <option value="Turkey">Turkey</option>
+            </select>
+            <br/>
+            <b>Actors:</b> 
+            <label for="selfActor">Me:</label> <input type="checkbox" id="selfActor" />
+            <label for="involvedActor">Recipient:</label> <input type="checkbox" id="involvedActor" /> 
+            <br/>
+            
+            <label for="demand"><b>Demand Level</b></label>
+
+            <select name="demand" id ="demand">
+                <option value=0>Inquiry</option>
+                <option value=1>Suggestion</option>
+                <option value=2>Demand</option>
+            </select>
+
+            <br />
+            <b>Proposed Actions:</b>
+            <div id="0">
+                
+            </div>
+            <input type="button" value="Add Move" onclick="addMove(0)"> <input type="button" value="Add Territory"> <input type="button" value="Add ">
+            <br> <b>Motivations:</b>
+            <div id="motivations">
+                
+            </div>
+            <input type="button" value="Add Move" onclick="addMove('motivations')"> <input type="button" value="Add Territory"> <input type="button" value="Add ">
+            <br> <b>Offers:</b>
+            <div id="motivations">
+                
+            </div>
+            <input type="button" value="Add Move" onclick="addMove('motivations')"> <input type="button" value="Add Territory"> <input type="button" value="Add ">
+            <br>
+            <input type="button" onclick="buildString()" value="Submit!">
+        </form>
+        <p id="output"></p>
+    </body>
+</html>
