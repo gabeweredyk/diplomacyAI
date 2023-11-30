@@ -191,8 +191,8 @@ function buildString(){
     var suggested, motivations, offers;
     
 
-    let selfStarts = ['I might try to ', 'I want to ', 'I will '];
-    let involvedStarts = ['thinking of ', 'should ', 'must '];
+    let selfStarts = ['I might try to', 'I want to', 'I will'];
+    let involvedStarts = ['might want to', 'should', 'must'];
     unitDesc = " the ";
 
     var pronoun = "I ";
@@ -285,7 +285,7 @@ function getMoves(l){
                         break;
                     case recipient:
                         if (!selfActor && involvedActor){
-                            message += (first && !(demandLevel == 2)) ? " to" : ""; 
+                            message += (first && (demandLevel == 0)) ? " to" : ""; 
                             message += (move.stand != "Advocate") ? " not" : "";
                             message += " own ";
                         }
@@ -296,8 +296,9 @@ function getMoves(l){
                         }
                         break;
                     default:
+                        message += "make ";
                         message += move.country;
-                        message += (move.stand == "Advocate") ? " to have " : " to not have "; 
+                        message += (move.stand == "Advocate") ? " have " : " not have "; 
                 }
                 message += move.territory;
                 break;
