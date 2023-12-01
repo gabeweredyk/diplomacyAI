@@ -4,4 +4,4 @@ FRA: bre, mar, par (3 total).
 GER: ber, kie, mun (3 total).
 ITL: nap, rom, ven (3 total).
 RUS: mos, sev, stp, war (4 total).
-TUR: ank, bul, con, smy (4 total).
+TUR: ank, con, smy (4 total).

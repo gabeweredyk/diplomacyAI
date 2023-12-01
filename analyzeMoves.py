@@ -1,4 +1,4 @@
-from buildBoard import buildBoard
+
 from country import *
 import sys
 import random
@@ -131,7 +131,7 @@ def getRandomMove(mu, N):
     for i in range(N):
         distribution.append( (mu ** i) / factorial(i))
     x = random.choices(range(N), distribution, k=1)[0]
-    return x #Determined 
+    return x 
 
 def analyzeMovesInitial(players,assignedCountry,territories,paths):
     otherPlayers = dict()
@@ -178,6 +178,7 @@ def analyzeMovesInitial(players,assignedCountry,territories,paths):
 
         # narrow down to nearest target and finds the value of the movement
         targets.sort()
+        # print(targets)
         target = targets[getRandomMove(1, len(targets))]
         pathToTarget = target[1]
         moveVal = territories[target[2]]["score"]/(target[0] ** 2)
@@ -207,9 +208,9 @@ def analyzeMovesInitial(players,assignedCountry,territories,paths):
                 for unit in unconsideredUnits:
                     if unit.loc != pathToTarget[0]:
                         goalProv = unit.loc
-                        if unit.type == "A":
+                        if unit.type == "a":
                             previousNodes, distToAll = armyDistBetweenTerritories(unit.loc,paths,territories)
-                        if unit.type == "F":
+                        if unit.type == "f":
                             previousNodes, distToAll = fleetsDistBetweenTerritories(unit.loc,paths,territories)
                         dists = []
                         for dist in distToAll:
