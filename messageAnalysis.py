@@ -16,7 +16,7 @@ def ownsTerritory(player, territory):
             return True
     return False
 
-def interpetMessage():
+def interpretMessage():
     global countries
     player = ""
     while player != "BREAK":
@@ -62,7 +62,7 @@ def interpetMessage():
                 case "convoy":
                     move = {"type":"Convoy","terr":[message[i + 12], message[i + 4], message[i + 6]]}
                     storeMove(player, move)
-        print(promisedMoves)    
+        print(promisedMoves)
 
 
 def storeMove(country, move):

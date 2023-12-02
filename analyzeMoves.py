@@ -182,12 +182,12 @@ def analyzeMovesInitial(players,assignedCountry,territories,paths):
         target = targets[getRandomMove(1, len(targets))]
         pathToTarget = target[1]
         moveVal = territories[target[2]]["score"]/(target[0] ** 2)
-        prelimMove = ("move",pathToTarget[0],pathToTarget[1])
+        prelimMove = {"type":"Move","terr":[pathToTarget[0],pathToTarget[1]]}
 
         # calculate current province danger for the unit that might move and consider if it should hold instead of moving
         currentDanger = immediateDanger(target[-1].loc,paths,otherPlayers)
         holdVal = currentDanger*100
-        prelimHold = ("hold",target[-1].loc)
+        prelimHold = {"type":"Hold","terr":[target[-1].loc]}
         if territories[target[-1].loc]["owner"] != assignedCountry and territories[target[-1].loc]["supply"]:
             holdVal = sys.maxsize
 
@@ -198,7 +198,7 @@ def analyzeMovesInitial(players,assignedCountry,territories,paths):
             if nextStepDanger > 0.9:
                 for unit in unconsideredUnits:
                     if unit.inSupportingLoc(pathToTarget[1],paths,territories) and unit.loc != pathToTarget[0]:
-                        support = ("support move",pathToTarget[0],pathToTarget[1],unit.loc)
+                        support = {"type":"Support","terr":[[pathToTarget[0],pathToTarget[1],unit.loc]]}
                         moves.append(support)
                         unconsideredUnits.remove(unit)
                         break
@@ -226,7 +226,7 @@ def analyzeMovesInitial(players,assignedCountry,territories,paths):
                 supportPaths.sort()
                 supportPath = supportPaths[0]
                 pathToSupport = supportPath[1]
-                support = ("move",pathToSupport[0],pathToSupport[1])
+                support = {"type":"Move","terr":[pathToSupport[0],pathToSupport[1]]}
                 moves.append(support)
                 unconsideredUnits.remove(supportPath[-1])
         
@@ -235,7 +235,7 @@ def analyzeMovesInitial(players,assignedCountry,territories,paths):
             for i in range(currentDanger):
                 for unit in unconsideredUnits:
                     if unit.inSupportingLoc(prelimHold[1],paths,territories):
-                        support = ("support hold",prelimHold[1],unit.loc)
+                        support = {"type":"Support","terr":[prelimHold[1],unit.loc]}
                         unconsideredUnits.remove(unit)
                         break
         
