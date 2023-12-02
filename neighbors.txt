@@ -78,7 +78,7 @@ nwy,nwg
 nwy,bar
 nwy,stp
 nwy,fin
-nwy,ske
+nwy,swe
 nwy,ska
 nwy,nth
 stp,bar
@@ -190,7 +190,7 @@ mos,ukr
 mos,sev
 war,mos
 war,ukr
-war,gak
+war,gal
 war,sil
 war,pru
 war,lvn
@@ -215,7 +215,7 @@ sil,pru
 sil,war
 sil,gal
 sil,boh
-sil,muh
+sil,mun
 sil,ber
 gas,par
 gas,bur
@@ -383,7 +383,7 @@ ion,tys
 ion,nap
 ion,apu
 ion,adr
-ion,aln
+ion,alb
 ion,gre
 ion,aeg
 bul,rum
