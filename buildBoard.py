@@ -27,9 +27,7 @@ def provinceIndex(territory,territories,paths):
                     score += 10
     return score
 
-def buildBoard(hostname, username, password):
-    db = mysql.connector.connect(host="f{hostname}",user="f{username}",password="f{password}")
-    crsr = db.cursor()
+def buildBoard():
 
     paths = dict()
     for i in territories:
