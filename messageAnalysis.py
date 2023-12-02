@@ -1,11 +1,13 @@
 from readJDIP import *
-from country import *
-from analyzeMoves import *
 
 self = "TUR"
 promisedMoves = {}
+requestedMoves = {}
+
 for i in countries:
     promisedMoves[i] = []
+    requestedMoves[i] = []
+
 
 def ownsTerritory(player, territory):
     global units
@@ -14,13 +16,17 @@ def ownsTerritory(player, territory):
             return True
     return False
 
-
-def messageAnalysis():
-    global promisedMoves
-    while True:
+def interpetMessage():
+    global countries
+    player = ""
+    while player != "BREAK":
         player = input("From: ").strip()
+        if player not in countries: continue
         message = input("Incoming Message: ").strip()
         message = message.split(" ")
+        for i in range(len(message)):
+            if message[i][-1] == ".":
+                message[i] = message[i][:-1]
         demand = 0
         selfActor = True
         otherActor = True
@@ -44,23 +50,24 @@ def messageAnalysis():
                     stage = 1
                 case "return":
                     stage = 2
-            match word:
                 case "move":
-                    terr = message[i + 4]
-                    if (ownsTerritory(player, terr)):
-                        promisedMoves[player].append( {"type":"Move","terr":[terr, message[i + 6]]})
+                    move = {"type":"Move","terr":[message[i + 4], message[i + 6]]}
+                    storeMove(player, move)
                 case "hold":
-                    terr = message[i + 4]
-                    if (ownsTerritory(player, terr)):
-                        promisedMoves[player].append( {"type":"Hold","terr":[terr]})
+                    move = {"type":"Hold","terr":[message[i + 4]]}
+                    storeMove(player, move)
                 case "support":
-                    terr = message[i + 12]
-                    if (ownsTerritory(player, terr)):
-                        promisedMoves[player].append( {"type":"Support","terr":[terr, message[i + 4], message[i + 7]]})
+                    move = {"type":"Support","terr":[message[i + 12], message[i + 4], message[i + 7]]}
+                    storeMove(player, move)
                 case "convoy":
-                    terr = message[i + 12]
-                    if (ownsTerritory(player, terr)):
-                        promisedMoves[player].append( {"type":"Convoy","terr":[terr, message[i + 4], message[i + 6]]})
+                    move = {"type":"Convoy","terr":[message[i + 12], message[i + 4], message[i + 6]]}
+                    storeMove(player, move)
         print(promisedMoves)    
 
-messageAnalysis()
+
+def storeMove(country, move):
+    global promisedMoves, requestedMoves, self
+    if (ownsTerritory(country, move["terr"][0])):
+        promisedMoves[country].append( move)
+    elif (ownsTerritory(self, move["terr"][0])):
+        requestedMoves[country].append( move)

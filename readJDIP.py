@@ -186,5 +186,3 @@ def fillTerritories():
         territories[i]["score"] = provinceIndex(i)
 
 buildBoard()
-
-print(units)
