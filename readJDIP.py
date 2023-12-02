@@ -187,4 +187,4 @@ def fillTerritories():
 
 buildBoard()
 
-print(previousMoves)
+print(units)

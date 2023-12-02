@@ -267,7 +267,7 @@ function getMoves(l){
                         message += " support" + unitDesc + move.unitType + " in " + move.terr[1] + " advancing into " + move.terr[2] + " with the unit in " + move.terr[0];
                         break;
                     case "Convoy":
-                        message += " convoy" + unitDesc + move.unitType + " in " + move.terr[1] + " to " + move.terr[2] + " with the fleet in " + move.terr[0]; 
+                        message += " convoy" + unitDesc + "army in " + move.terr[1] + " to " + move.terr[2] + " with the fleet in " + move.terr[0]; 
                         break;
                 }
                 break;
@@ -303,7 +303,7 @@ function getMoves(l){
                         message += move.country;
                         message += (move.stand == "Advocate") ? " have " : " not have "; 
                 }
-                message += move.territory;
+                message += "**" + move.territory + "**";
                 break;
         }
         
