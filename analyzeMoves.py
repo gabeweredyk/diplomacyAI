@@ -129,7 +129,7 @@ def factorial(n):
 def getRandomMove(mu, N):
     distribution = []
     for i in range(N):
-        distribution.append( (mu ** i) / factorial(i))
+        distribution.append(  (mu ** i) / factorial(i))
     x = random.choices(range(N), distribution, k=1)[0]
     return x 
 
@@ -178,7 +178,7 @@ def analyzeMovesInitial(players,assignedCountry,territories,paths):
 
         # narrow down to nearest target and finds the value of the movement
         targets.sort()
-        # print(targets)
+        print(targets)
         target = targets[getRandomMove(1, len(targets))]
         pathToTarget = target[1]
         moveVal = territories[target[2]]["score"]/(target[0] ** 2)

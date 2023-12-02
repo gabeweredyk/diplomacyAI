@@ -1,5 +1,8 @@
 units = dict()
 paths = dict()
+previousMoves = dict()
+
+countries = ["AUS", "ENG", "FRA", "GER", "ITL", "RUS", "TUR"]
 
 territories = {
         "nao": {"supply":False,"type":"Sea","owner":""},
@@ -117,6 +120,43 @@ def initPaths():
 
 def buildBoard():
     global units, territories, paths
+    fillPreviousMoves()
+    fillUnits()
+    fillTerritories()
+    return paths, territories, units
+
+initPaths()
+
+
+def fillPreviousMoves():
+    global previousMoves, countries
+    for i in countries:
+        previousMoves[i] = []
+    f = open('previousMoves.txt')
+    potMoves = f.read().split("\n")
+    for i in potMoves:
+        if (i[0:3] not in countries or len(i) == 4) : continue
+        moveType = ""
+        terr = []
+        terr.append(i[7:10])
+        if ("Holds" in i):
+            moveType = "Hold"
+        elif ("Supports" in i):
+            moveType = "Support"
+            terr.append(i[-10:-7])
+            terr.append(i[-3:])
+        elif ("Convoys" in i):
+            moveType = "Convoy"
+            terr.append(i[-10:-7])
+            terr.append(i[-3:])
+        else:
+            moveType = "Move"
+            terr.append(i[-3:])
+        previousMoves[i[0:3]].append({"type":moveType,"terr":terr})        
+    f.close()
+
+def fillUnits():
+    global units
     f = open('units.txt')
     perCountryUnit = f.read().split("\n")
     n = 0
@@ -128,6 +168,8 @@ def buildBoard():
             n += 1
     f.close()
 
+def fillTerritories():
+    global units, territories
     g = open('territories.txt')
     for i in territories.keys():
         territories[i]["owner"] = ""
@@ -143,8 +185,6 @@ def buildBoard():
     for i in territories.keys():
         territories[i]["score"] = provinceIndex(i)
 
-    return paths, territories, units
+buildBoard()
 
-initPaths()
-
-
+print(previousMoves)

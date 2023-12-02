@@ -253,6 +253,9 @@ function getMoves(l){
         if (!first) message += " and "
         switch (move.toString){
             case "Move":
+                for (let i = 0; i < move.terr.length; i++){
+                    move.terr[i] = "**" + move.terr[i] + "**"
+                }
                 switch(move.type){
                     case "Hold":
                         message += " hold" + unitDesc + move.unitType + " in " + move.terr[0];

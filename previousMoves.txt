@@ -1,0 +1,53 @@
+ AUS:
+No order for unit at vie. Hold order assigned.
+
+AUS: A bud -> rum
+AUS: F tri -> adr
+AUS: A vie Holds
+ENG:
+No order for unit at edi. Hold order assigned.
+No order for unit at lvp. Hold order assigned.
+No order for unit at lon. Hold order assigned.
+
+ENG: F edi Holds
+ENG: A lvp Holds
+ENG: F lon Holds
+FRA:
+No order for unit at bre. Hold order assigned.
+No order for unit at mar. Hold order assigned.
+No order for unit at par. Hold order assigned.
+
+FRA: F bre Holds
+FRA: A mar Holds
+FRA: A par Holds
+GER:
+No order for unit at ber. Hold order assigned.
+No order for unit at kie. Hold order assigned.
+No order for unit at mun. Hold order assigned.
+
+GER: A ber Holds
+GER: F kie Holds
+GER: A mun Holds
+ITL:
+No order for unit at nap. Hold order assigned.
+No order for unit at rom. Hold order assigned.
+No order for unit at ven. Hold order assigned.
+
+ITL: F nap Holds
+ITL: A rom Holds
+ITL: A ven Holds
+RUS:
+No order for unit at mos. Hold order assigned.
+No order for unit at stp. Hold order assigned.
+No order for unit at war. Hold order assigned.
+
+RUS: A mos Holds
+RUS: F sev -> bla
+Bounced with ank (1 against 1).
+RUS: F stp/sc Holds
+RUS: A war Holds
+TUR:
+TUR: F ank -> bla
+Bounced with sev (1 against 1).
+TUR: A con -> bul
+TUR: A smy -> con
