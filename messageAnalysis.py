@@ -3,6 +3,7 @@ from readJDIP import *
 self = "TUR"
 promisedMoves = {}
 requestedMoves = {}
+replies = {}
 
 for i in countries:
     promisedMoves[i] = []

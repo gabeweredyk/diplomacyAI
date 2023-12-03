@@ -1,7 +1,7 @@
-AUS: bud, gre, ser, vie (4 total).
-ENG: edi, lvp, lon, nwy (4 total).
-FRA: bre, mar, par, por, spa (5 total).
-GER: ber, den, hol, kie, mun (5 total).
-ITL: nap, rom, tri, ven (4 total).
-RUS: mos, rum, stp, war (5 total).
-TUR: ank, bul, con, smy, sev (4 total).
+AUS: bud, tri, vie (3 total).
+ENG: edi, lvp, lon (3 total).
+FRA: bre, mar, par (3 total).
+GER: ber, kie, mun (3 total).
+ITL: nap, rom, ven (3 total).
+RUS: mos, sev, stp, war (4 total).
+TUR: ank, con, smy (3 total).

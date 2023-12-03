@@ -1,6 +1,7 @@
 from readJDIP import *
 import numpy as np
 from collections import OrderedDict
+from messageAnalysis import requestedMoves, replies
 
 #Credit for this algorithim: https://www.geeksforgeeks.org/python-sort-python-dictionaries-by-key-or-value/
 def sortByValues(dict):
@@ -13,7 +14,7 @@ def sortByValues(dict):
 
 def analyzeMoves(country):
     # Country strengths is a dictionary giving the strength
-    global units, paths, countries, territories, trust
+    global units, paths, countries, territories, trust, requestedMoves, replies
     # Step 1: Consider all territories that the bot has influence over
     neighbors = []
     unitTerritories = {}
@@ -146,8 +147,30 @@ def analyzeMoves(country):
         for j in possibleSupports.keys():
             if otherStrengths[j] < otherStrengths[best]:
                 best = j
-            otherStrengths[j] += 1
+            print(otherStrengths[best])
+        otherStrengths[best] += 1
         moves[i] = {"type":"Support","terr":[moves[i]["terr"][0],possibleSupports[best],best]}
+
+    # for player in requestedMoves.keys():
+    #     for request in requestedMoves[country]:
+    #         if request in moves:
+    #             replies[player].append("Affirmative")
+    #             externalTrust[player] *= 1.2
+    #             continue
+    #         if request["type"] == "Convoy":
+    #             replies[player].append("Negative")
+    #             externalTrust[player] /= 1.2
+    #             continue
+    #         if request["type"] == "Support":
+    #             attacked = request["terr"][2]
+    #             if territories[attacked]["owner"] == country or trust[territories[attacked]["owner"]] > trust[player]:
+    #                 replies[player].append("Negative")
+    #                 externalTrust[player] /= 1.2
+    #             else:
+    #                 replies[player].append("Affirmative")
+    #                 externalTrust[player] *= 1.2
+
+            
 
 
     return moves
@@ -170,4 +193,4 @@ def resolveMoves(moves):
 
     
 
-print(analyzeMoves("AUS"))
+print(analyzeMoves("TUR"))
