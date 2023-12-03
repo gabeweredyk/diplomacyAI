@@ -151,29 +151,47 @@ def analyzeMoves(country):
         otherStrengths[best] += 1
         moves[i] = {"type":"Support","terr":[moves[i]["terr"][0],possibleSupports[best],best]}
 
-    # for player in requestedMoves.keys():
-    #     for request in requestedMoves[country]:
-    #         if request in moves:
-    #             replies[player].append("Affirmative")
-    #             externalTrust[player] *= 1.2
-    #             continue
-    #         if request["type"] == "Convoy":
-    #             replies[player].append("Negative")
-    #             externalTrust[player] /= 1.2
-    #             continue
-    #         if request["type"] == "Support":
-    #             attacked = request["terr"][2]
-    #             if territories[attacked]["owner"] == country or trust[territories[attacked]["owner"]] > trust[player]:
-    #                 replies[player].append("Negative")
-    #                 externalTrust[player] /= 1.2
-    #             else:
-    #                 replies[player].append("Affirmative")
-    #                 externalTrust[player] *= 1.2
+    for player in requestedMoves.keys():
+        for request in requestedMoves[country]:
+            if request in moves:
+                replies[player].append("Affirmative")
+                externalTrust[player] *= 1.2
+                continue
+            if request["type"] == "Convoy":
+                replies[player].append("Negative")
+                externalTrust[player] /= 1.2
+                continue
+            if request["type"] == "Support":
+                attacked = request["terr"][2]
+                if territories[attacked]["owner"] == country or trust[territories[attacked]["owner"]] > trust[player]:
+                    replies[player].append("Negative")
+                    externalTrust[player] /= 1.2
+                else:
+                    replies[player].append("Affirmative")
+                    externalTrust[player] *= 1.2
+    
+    messagesToSend = {}
+    for i in countries:
+        messagesToSend[i] = ""
 
-            
+    for i in otherStrengths.keys():
+        if territories[i]["owner"] == "" or territories[i]["owner"] == country: continue
+        if messagesToSend[territories[i]["owner"]] != "": continue
+        unitType = ''
+        
+        for j in units.values():
+            if j["owner"] == territories[i]["owner"] and j["loc"] == i:
+                unitType = j["type"]
+        unitType = {"a":"Army", "f":"Fleet"}[unitType]
+        for j in paths[i]:
+            if j in otherStrengths.keys(): continue
+            messagesToSend[territories[i]["owner"]] = "You should move your " + unitType + " from **" + i + "** to **" + j + "**." 
 
 
-    return moves
+    
+    print(netStrengths)
+
+    return moves, messagesToSend
 
     
 
