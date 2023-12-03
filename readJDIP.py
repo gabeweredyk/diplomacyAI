@@ -91,24 +91,19 @@ def provinceIndex(territory):
     score = 0
     # additive/subtractive effects
     if territories[territory]["supply"]:
-        score += 200
+        score += 300
     if territories[territory]["owner"] == "None":
-        score += 100
+        score += 75
     for neighbor in paths[territory]:
         if territories[neighbor]["supply"]:
-            score += 100
+            score += 150
         if territories[neighbor]["owner"] == "None":
-            score += 50
+            score += 25
         for neighborNeighbor in paths[neighbor]:
             if territories[neighborNeighbor]["supply"]:
                 score += 50
             if territories[neighborNeighbor]["owner"] == "None":
-                score += 25
-            for neighborNeighborNeighbor in paths[neighborNeighbor]:
-                if territories[neighborNeighborNeighbor]["supply"]:
-                    score += 25
-                if territories[neighborNeighborNeighbor]["owner"] == "None":
-                    score += 10
+                score += 10
     if territory in home:
         score += 500
     if territory == "syr":
