@@ -15,13 +15,13 @@ while active:
     turn = turn.split()
     buildBoard()
     match turn[-1]:
-        case "Moves":
+        case "movement":
             interpretMessage()
             analyzeMoves(self)
-        case "Retreats":
+        case "retreat":
             terrsToRetreat = input("Units in these territories need to retreat: ")
             analyzeRetreats(terrsToRetreat)
-        case "Builds":
+        case "adjustment":
             placeUnits(self)
 
         # the following are placeholder game-ending states
