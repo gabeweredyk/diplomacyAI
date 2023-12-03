@@ -50,6 +50,8 @@ def interpretMessage():
                     stage = 1
                 case "return":
                     stage = 2
+            if stage == 1: continue
+            match word:
                 case "move":
                     move = {"type":"Move","terr":[message[i + 4], message[i + 6]]}
                     storeMove(player, move)

@@ -1,7 +1,7 @@
-AUS	A bud	A rum	F tri	
-ENG	A lvp	F edi	F lon	
-FRA	A mar	A par	F bre	
-GER	A ber	A mun	F kie	
-ITL	A rom	A ven	F nap	
-RUS	A mos	A war	F sev	F stp
-TUR	A smy	A con	F ank	
+AUS	A bud	A ser	A vie	F gre	
+ENG	A nwy	F nth	F nwg		
+FRA	A bur	A mar	A par	F bre	F mao
+GER	A hol	A mun	A ruh	F den	F kie
+ITL	A tri	A tyr	A ven	F apu	
+RUS	A gal	A mos	F bot		
+TUR	A bul	A con	A rum	A sev	F bla

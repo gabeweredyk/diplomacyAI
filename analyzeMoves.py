@@ -128,10 +128,11 @@ def factorial(n):
 
 def getRandomMove(mu, N):
     distribution = []
+    r = 0.4
     for i in range(N):
-        distribution.append(  (mu ** i) / factorial(i))
+        distribution.append(  r ** abs(i - mu)  )
     x = random.choices(range(N), distribution, k=1)[0]
-    return x 
+    return x
 
 def analyzeMovesInitial(players,assignedCountry,territories,paths):
     otherPlayers = dict()
@@ -198,7 +199,7 @@ def analyzeMovesInitial(players,assignedCountry,territories,paths):
             if nextStepDanger > 0.9:
                 for unit in unconsideredUnits:
                     if unit.inSupportingLoc(pathToTarget[1],paths,territories) and unit.loc != pathToTarget[0]:
-                        support = {"type":"Support","terr":[[pathToTarget[0],pathToTarget[1],unit.loc]]}
+                        support = {"type":"Support","terr":[[unit.loc,pathToTarget[0],pathToTarget[1]]]}
                         moves.append(support)
                         unconsideredUnits.remove(unit)
                         break
@@ -226,7 +227,8 @@ def analyzeMovesInitial(players,assignedCountry,territories,paths):
                 supportPaths.sort()
                 supportPath = supportPaths[0]
                 pathToSupport = supportPath[1]
-                support = {"type":"Move","terr":[pathToSupport[0],pathToSupport[1]]}
+                # print(supportPaths)
+                support = {"type":"Move","terr":[unit.loc,pathToSupport[0]]}
                 moves.append(support)
                 unconsideredUnits.remove(supportPath[-1])
         
@@ -245,5 +247,58 @@ def analyzeMovesInitial(players,assignedCountry,territories,paths):
         if moveVal > holdVal:
             move = prelimMove
         moves.append(move)
-        unconsideredUnits.remove(players[assignedCountry].unitAtLocation(move[1]))
+        # print(move)
+        unconsideredUnits.remove(players[assignedCountry].unitAtLocation(move["terr"][0]))
+    moves = reevaluateMoves(moves)
     return moves
+
+
+# Prevents two units from moving into the same territory instead of supporting each other
+def reevaluateMoves(moves):
+    terr = {}
+    for i in range(len(moves)):
+        if moves[i]["type"] != "Move": continue
+        if moves[i]["terr"][0] == moves[i]["terr"][1]:
+            moves[i] = {"type":"Hold","terr":[ moves[i]["terr"][0] ]}
+            terr[moves[i]["terr"][1]] = moves[i]["terr"][0]
+        if moves[i]["terr"][1] in terr.keys():
+            moves[i] = {"type":"Support","terr":[moves[i]["terr"][0], terr[moves[i]["terr"][1]], moves[i]["terr"][1]]}
+        else:
+            terr[moves[i]["terr"][1]] = moves[i]["terr"][0]
+    return moves
+
+def alternateMovesInitial(players,assignedCountry,territories,paths):
+    otherPlayers = dict()
+    for player in players:
+        if player != assignedCountry:
+            otherPlayers[player] = players[player]
+    
+    unconsideredUnits = players[assignedCountry].armies + players[assignedCountry].fleets
+    moves = []
+    home = ["con", "ank", "smy"]
+    for unit in unconsideredUnits:
+        # finds the distance from the unit to all territories on the
+        if unit.type == "a":
+            previousNodes, distToAll = armyDistBetweenTerritories(unit.loc,paths,territories)
+        if unit.type == "f":
+            previousNodes, distToAll = fleetsDistBetweenTerritories(unit.loc,paths,territories)
+
+        # creates a list of 2-tuples of the evaluation score and the name of each province that it could move
+        dists = []
+        for dist in distToAll:
+            if distToAll[dist] != 0:
+                evaluation = territories[dist]["score"] / (distToAll[dist] ** 3)
+                # if dist in home:
+                #     evaluation *= 1.2
+                x = (evaluation,dist) # 2-tuple with movementEval,provinceName
+                dists.append(x)
+
+        # sorts that by the evaluation score
+        dists.sort(reverse=True)
+
+        moves.append({"type":"Move","terr":[unit.loc, dists[getRandomMove(1, len(dists))][1]]})
+        # unconsideredUnits.remove(unit)
+        
+    moves = reevaluateMoves(moves)
+    return moves
+        

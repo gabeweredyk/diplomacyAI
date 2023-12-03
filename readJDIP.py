@@ -2,7 +2,10 @@ units = dict()
 paths = dict()
 previousMoves = dict()
 
+trust = {"FRA":1,"ENG":1,"GER":1,"ITL":1,"AUS":1,"RUS":1,"TUR":-1}
 countries = ["AUS", "ENG", "FRA", "GER", "ITL", "RUS", "TUR"]
+self = "TUR"
+home = ["ank", "con", "smy"]
 
 territories = {
         "nao": {"supply":False,"type":"Sea","owner":""},
@@ -105,6 +108,10 @@ def provinceIndex(territory):
                     score += 25
                 if territories[neighborNeighborNeighbor]["owner"] == "None":
                     score += 10
+    if territory in home:
+        score += 500
+    if territory == "syr":
+        score -= 5000
     return score
 
 def initPaths():

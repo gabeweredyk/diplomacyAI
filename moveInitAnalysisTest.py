@@ -41,5 +41,5 @@ buildBoard()
 
 players = buildCountries(trustDict,units,countries)
 
-moves = analyzeMovesInitial(players,"TUR",territories,paths)
+moves = alternateMovesInitial(players,"TUR",territories,paths)
 print(moves)
