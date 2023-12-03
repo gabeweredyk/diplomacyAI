@@ -29,7 +29,7 @@ def analyzeMoves(country):
             if j not in neighbors:
                 neighbors.append(j)
 
-    print(neighbors)
+    # print(neighbors)
 
     # Step two, calculate the maximum amount of "strength" each country can exert on each territory
     strengths = {}
@@ -99,8 +99,8 @@ def analyzeMoves(country):
         for j in unitTerritories.keys():
             if (j in paths[terr] or j == terr) and (unitTerritories[j]["type"] == tileType or tileType == "c"):
                 availableUnits.append(j)
-        print(terr)
-        print(availableUnits)
+        # print(terr)
+        # print(availableUnits)
         attackingUnits = []
         while len(attackingUnits) <= -otherStrengths[terr] and len(moves) != unitCount and len(availableUnits) != 0:
             # if len(attackingUnits) > 0:
@@ -147,7 +147,7 @@ def analyzeMoves(country):
         for j in possibleSupports.keys():
             if otherStrengths[j] < otherStrengths[best]:
                 best = j
-            print(otherStrengths[best])
+            # print(otherStrengths[best])
         otherStrengths[best] += 1
         moves[i] = {"type":"Support","terr":[moves[i]["terr"][0],possibleSupports[best],best]}
 
@@ -185,11 +185,32 @@ def analyzeMoves(country):
         unitType = {"a":"Army", "f":"Fleet"}[unitType]
         for j in paths[i]:
             if j in otherStrengths.keys(): continue
+            if (territories[j]["type"] == "Land" and unitType == "Fleet") or (territories[j]["type"] == "Sea" and unitType == "Army"): continue
             messagesToSend[territories[i]["owner"]] = "You should move your " + unitType + " from **" + i + "** to **" + j + "**." 
+            for k in range(len(moves)):
+                if moves[k]["type"] != "Hold": continue
+                if moves[k]["terr"][0] not in paths[j]: continue
+                messagesToSend[territories[i]["owner"]] += " In return, I'll support your " + unitType + " in **" + i + "** advancing into **" + j + "** with the unit in **" + k + "**."
+                moves[k] == {"type":"Support","terr":[moves[k]["terr"][0],i, j]}
+
+    needsSupport = {}
+    for i in moves:
+        if i["type"] != "Move": continue
+        unitType = ""
+        for j in units.values():
+            if j["loc"] != i["terr"][0]: continue
+            unitType = j["type"]
+        unitType = {"a":"Army", "f":"Fleet"}[unitType]
+        needsSupport[i["terr"][1]] = {"type":unitType,"from":i["terr"][0]}
 
 
-    
-    print(netStrengths)
+    for i in needsSupport.keys():
+        for j in units.values():
+            if j["loc"] not in paths[i]: continue
+            if j["owner"] == country: continue
+            if messagesToSend[j["owner"]] != "": continue
+            messagesToSend[j["owner"]] = "We should support the " + needsSupport[i]["type"] + " in **" + needsSupport[i]["from"] + "** advancing into **" + i + "** with the unit in **" + j["loc"] + "**."
+    # print(netStrengths)
 
     return moves, messagesToSend
 
