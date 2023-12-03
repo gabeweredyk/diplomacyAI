@@ -13,4 +13,4 @@ def analyzeRetreats(terrs):
         retreatLoc = validRetreatLocs[randint(0,len(validRetreatLocs)-1)]
         retreats.append({"type":"Move","terr":[terr,retreatLoc]})
     
-    return retreats
+    print(retreats)

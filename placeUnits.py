@@ -77,4 +77,4 @@ def placeUnits(country):
             placements.append({"type":"Destroy","loc":unitToRem})
             ownUnits.remove(unitToRem)
 
-    return placements
+    print(placements)
