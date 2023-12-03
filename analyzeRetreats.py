@@ -1,7 +1,8 @@
 from readJDIP import *
 from random import randint
 
-def analyzeRetreats(terrs):
+def analyzeRetreats(inputStr):
+    terrs = inputStr.split()
     global units,paths,countries,territories
     retreats = []
     for terr in terrs:

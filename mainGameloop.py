@@ -23,7 +23,7 @@ while active:
             interpretMessage()
             analyzeMoves("TUR")
         case "retreat":
-            terrsToRetreat = input("Units in these territories need to retreat: ")
+            terrsToRetreat = input("Units in these territories need to retreat (separate by commas, no spaces): ")
             analyzeRetreats(terrsToRetreat)
         case "adjustment":
             placeUnits("TUR")
