@@ -42,10 +42,7 @@ def interpretMessage():
                     selfActor = word != "I"
                     otherActor = word != "You"
                 case 1:
-                    if (selfActor and not otherActor):
-                        demand = {"might":0, "want":1, "will":2}[word]
-                    else:
-                        demand = {"might":0, "should":1, "must":2}[word]
+                    demand = {"might":0, "should":1, "must":2, "want":1, "will":2}[word]
             match word:
                 case "so":
                     stage = 1
@@ -65,7 +62,7 @@ def interpretMessage():
                 case "convoy":
                     move = {"type":"Convoy","terr":[message[i + 12], message[i + 4], message[i + 6]]}
                     storeMove(player, move)
-        print(promisedMoves)
+        # print(promisedMoves)
 
 
 def storeMove(country, move):

@@ -14,15 +14,19 @@ while active:
     turn = input("Turn: ")
     turn = turn.split()
     buildBoard()
+    print(promisedMoves)
     match turn[-1]:
         case "movement":
+            updateTrust("TUR")
+            promisedMoves = {}
+            requestedMoves = {}
             interpretMessage()
-            analyzeMoves(self)
+            analyzeMoves("TUR")
         case "retreat":
             terrsToRetreat = input("Units in these territories need to retreat: ")
             analyzeRetreats(terrsToRetreat)
         case "adjustment":
-            placeUnits(self)
+            placeUnits("TUR")
 
         # the following are placeholder game-ending states
         case "Lose":
@@ -36,3 +40,5 @@ while active:
         case "Draw":
             active = False
             print("Good game.")
+
+    

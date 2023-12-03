@@ -212,7 +212,8 @@ def analyzeMoves(country):
             messagesToSend[j["owner"]] = "We should support the " + needsSupport[i]["type"] + " in **" + needsSupport[i]["from"] + "** advancing into **" + i + "** with the unit in **" + j["loc"] + "**."
     # print(netStrengths)
 
-    return moves, messagesToSend
+    print("Moves: " + str(moves)) 
+    print("Messages: " + str(messagesToSend))
 
     
 
@@ -229,7 +230,3 @@ def resolveMoves(moves):
         else:
             terr[moves[i]["terr"][1]] = moves[i]["terr"][0]
     return moves
-
-    
-
-print(analyzeMoves("TUR"))

@@ -1,7 +1,7 @@
-AUS	
+AUS	A bud	A vie	F tri	
 ENG	A lvp	F edi	F lon	
 FRA	A mar	A par	F bre	
 GER	A ber	A mun	F kie	
 ITL	A rom	A ven	F nap	
-RUS	A gal	A ukr	F sev	F stp
-TUR	A arm	A bul	F bla	
+RUS	A mos	A war	F sev	F stp
+TUR	A con	A smy	F ank	
