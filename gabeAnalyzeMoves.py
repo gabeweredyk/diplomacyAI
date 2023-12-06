@@ -3,7 +3,7 @@ import numpy as np
 from collections import OrderedDict
 import copy
 
-messagesToSend = {"AUS":"","ENG":"","FRA":"","GER":"","ITL":"","RUS":"","TUR":"","BUR":""}
+messagesToSend = {"ENG":"","FRA":"","BUR":""}
 
 #Credit for this algorithim: https://www.geeksforgeeks.org/python-sort-python-dictionaries-by-key-or-value/
 def sortByValues(dict):
@@ -116,6 +116,12 @@ def analyzeMoves(country):
     for i in neighbors:
         #If there are no more units left, forget about it. unitCount decrements with every move assigned
         if unitCount <= 0: break
+        #If you are considering an attack on a territory with a stationary unit, dont
+        
+        if i in deltaPosition.keys(): 
+            print("Considered position w/ unit: " + i)
+            print("Position that unit is moving to: " + deltaPosition[i])
+            if  deltaPosition[i] == i : continue
         #hold is true iff the considered territory has a unit inside of it. Prioritizes holds since holds have 1.5 strength while movements have 1 strength
         hold = i in pickableUnits[i]
         # selfStrength is the max strength the bot can put on a territory with its unused units
@@ -169,6 +175,7 @@ def analyzeMoves(country):
             for j in neighbors:
                     if terr in pickableUnits[j]:
                         pickableUnits[j].remove(terr)
+        print(moves)
 
     #Do something with "useless holds"
 

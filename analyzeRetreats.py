@@ -15,3 +15,4 @@ def analyzeRetreats(inputStr):
         retreats.append({"type":"Move","terr":[terr,retreatLoc]})
     
     print(retreats)
+
