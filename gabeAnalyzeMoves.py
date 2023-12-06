@@ -1,7 +1,9 @@
 from readJDIP import *
 import numpy as np
 from collections import OrderedDict
-from messageAnalysis import requestedMoves, replies
+import copy
+
+messagesToSend = {"AUS":"","ENG":"","FRA":"","GER":"","ITL":"","RUS":"","TUR":"","BUR":""}
 
 #Credit for this algorithim: https://www.geeksforgeeks.org/python-sort-python-dictionaries-by-key-or-value/
 def sortByValues(dict):
@@ -11,209 +13,254 @@ def sortByValues(dict):
     sorted_dict = {keys[i]: values[i] for i in sorted_value_index}
     return sorted_dict
 
+# Probablity moves to the best territoy (as deemed by the bot)
+predProbability = {"AUS":0.5,"ENG":0.5,"FRA":0.5,"GER":0.5,"ITL":0.5,"RUS":0.5,"TUR":0,"BUR":0.5}
 
 def analyzeMoves(country):
-    # Country strengths is a dictionary giving the strength
-    global units, paths, countries, territories, trust, requestedMoves, replies
-    # Step 1: Consider all territories that the bot has influence over
-    neighbors = []
-    unitTerritories = {}
+    global units, paths, countries, territories, trust, requestedMoves, replies, predProbability, messagesToSend
+
+    # Unit count counts the total number of units the bot has at any given time
     unitCount = 0
-    for i in units.values():
-        if (i["owner"] != country): continue
+
+    #Get an array of every possible territory the bot could move to, this includes territories its units currently reside on
+    neighbors = []
+    for i in units.keys():
+        if (units[i]["owner"] != country): continue
         unitCount += 1
-        unitTerritories[i["loc"]]= {"type":i["type"]}
-        if i["loc"] not in neighbors:
-            neighbors.append(i["loc"])
-        for j in paths[i["loc"]]:
-            if j not in neighbors:
-                neighbors.append(j)
+        if i not in neighbors: neighbors.append(i)
+        for j in paths[i]:
+            if j not in neighbors: neighbors.append(j)
 
-    # print(neighbors)
 
-    # Step two, calculate the maximum amount of "strength" each country can exert on each territory
-    strengths = {}
+    #Them the bot uses probability theory to calculate the minimum strength it thinks it will need to attack any given territory
+
+    #Indicator variables
+    expectedIndStrength = {}
     for i in countries:
-        strengths[i] = {}
-        for j in neighbors:
-            strengths[i][j] = 0
-    for unit in units.values():
-        terr = unit["loc"]
-        coun = unit["owner"]
-        if terr in neighbors:
-            strengths[coun][terr] += 1.5
-        for i in paths[terr]:
-            if i in neighbors:
-                strengths[coun][i] += 1
+        if i == country: continue
+        expectedIndStrength[i] = {}
+        for j in territories:
+            expectedIndStrength[i][j] = 0
 
-    #Personal Strengths only for bot
-    personalStrengths = strengths[country]
-    personalStrengths = sortByValues(personalStrengths)
+    for i in units.keys():
+        owner = units[i]["owner"]
+        if owner == country: continue
+        eUnit = {}
+        eUnit[i] = territories[i]["score"] 
+        for j in paths[i]:
+            # If the unit can't move there, quit
+            if units[i]["type"] == "a" and territories[j]["type"] == "Sea" or units[i]["type"] == "f" and territories[j]["type"] == "Land": continue
+            # If considering an attack on its own unit, quit
+            if j in units.keys() and units[j]["owner"] == owner: continue
 
-    #Net Strengths is essentially for every territory, a dot product of the actual strength and the trust value. This is why Turkey has trust -1
-    #Other Strengths is every territory that isn't Turkey
-    netStrengths = {}
-    otherStrengths = {}
+            eUnit[j] = territories[j]["score"]
+        # total = sum(eUnit.values())
+        eUnit = sortByValues(eUnit)
+        for j in range(len(eUnit.keys())):
+            terr = list(eUnit.keys())[j]
+            expectedIndStrength[owner][ terr ] += predProbability[owner] * ((1 - predProbability[owner]) ** j)
+            if terr == i: expectedIndStrength[owner][ terr ] += 0.5 * predProbability[owner] * ((1 - predProbability[owner]) ** j)
+
+    expectedStrengths = {}
+    for i in territories:
+        expectedStrengths[i] = 0
+    for i in expectedIndStrength.values():
+        for j in i.keys():
+            expectedStrengths[j] += i[j]
+
+    expectedStrengths = sortByValues(expectedStrengths)
+
+    neededStrengths = {}
     for i in neighbors:
-        netStrengths[i] = 0
-        otherStrengths[i] = 0
-        for j in countries:
-            factor = -1 * trust[j]
-            netStrengths[i] += strengths[j][i] * factor
-            if j == country: continue
-            otherStrengths[i] += strengths[j][i] * factor
+        if expectedStrengths[i] == 0: neededStrengths[i] = 0
+        else: neededStrengths[i] =  int( expectedStrengths[i] + 1)
 
-    netStrengths = sortByValues(netStrengths)
-    otherStrengths = sortByValues(otherStrengths)
+    #
+    availableUnits = {}
+    for i in neighbors:
+        availableUnits[i] = []
+        if i in units.keys() and units[i]["owner"] == country: availableUnits[i].append(i)
+        for j in paths[i]:
+            if j not in units.keys() or units[j]["owner"] != country: continue
+            if units[j]["type"] == "a" and territories[i]["type"] == "Sea" or units[j]["type"] == "f" and territories[i]["type"] == "Land": continue
+            availableUnits[i].append(j)
 
-    # print(netStrengths)
+    neighborsValued = {}
+    for i in neighbors:
+        neighborsValued[i] = territories[i]["score"]
+    neighborsValued = sortByValues(neighborsValued)
 
-    #Dictionary of territories then their evaluation. Considers all territories it currently owns and all adjacent to it
+    neighbors = list(neighborsValued.keys())
 
-    newTerritories = {}
-    for i in netStrengths.keys():
-        # if territories[i]["owner"] == country: continue
-        evaluation = territories[i]["score"] + 200 * netStrengths[i] ** 3
-        # if netStrengths[i] < 0: continue
-        newTerritories[i] = evaluation
-                
-    newTerritories = sortByValues(newTerritories)
-
-    # print(newTerritories)
-
-    # print(unitTerritories.keys())
-
-
-    #So now that the bot has prioritized what territories it wants, it starts assigning units to each of them
+    insufficientSupport = {}
+    deltaPosition = {}
+    pickableUnits =  copy.deepcopy(availableUnits)
+    immobileUnits = []
     moves = []
-    i = 0
-    while i < len(newTerritories.keys()):
-        arr = list(newTerritories.keys())
-        terr = arr[i]
-        if (otherStrengths[terr] == 0):
-            i += 1
+
+    for i in neighbors:
+        if unitCount <= 0: break
+        hold = i in pickableUnits[i]
+        selfStrength = len(pickableUnits[i])
+        if hold: selfStrength += 0.5
+        mobile = False
+        for j in pickableUnits[i]:
+            if j not in immobileUnits:
+                mobile = True
+        if selfStrength < neededStrengths[i] or not mobile: 
+            insufficientSupport[i] = neededStrengths[i] - selfStrength
             continue
-        tileType = {"Coast":"c","Land":"a","Sea":"f"}[territories[terr]["type"]]
-        attackStrength = 0
-        availableUnits = []
-        for j in unitTerritories.keys():
-            if (j in paths[terr] or j == terr) and (unitTerritories[j]["type"] == tileType or tileType == "c"):
-                availableUnits.append(j)
-        # print(terr)
-        # print(availableUnits)
-        attackingUnits = []
-        while len(attackingUnits) <= -otherStrengths[terr] and len(moves) != unitCount and len(availableUnits) != 0:
-            # if len(attackingUnits) > 0:
-            #     arr = []
-            #     for j in availableUnits:
-            #         if j in paths[attackingUnits[0]]:
-            #             arr.append(j)
-            #     availableUnits = arr
-            #     continue      
-            maxProtected = availableUnits[0]
-            for j in availableUnits:
-                if personalStrengths[j] > personalStrengths[maxProtected]:
-                    maxProtected = j
-            moves.append({"type":"Move","terr":[maxProtected,terr]})
-            availableUnits.remove(maxProtected)
-            unitTerritories.pop(maxProtected)
-            attackingUnits.append( maxProtected )
+        n = neededStrengths[i]
+        first = ""
+        while n > 0:
+            n -= 1
+            if first == "":
+                if hold:
+                    moves.append({"Type":"Hold","terr":[i]})
+                    deltaPosition[i] = i
+                    immobileUnits.append(i)
+                    first = i
+                    continue
+                first = leastValuableUnit(pickableUnits, i, immobileUnits)
+                terr = first
+                moves.append({"Type":"Move","terr":[first,i]})
+                deltaPosition[first] = i
+            else:
+                terr = leastValuableUnit(pickableUnits, i, [])
+                moves.append({"Type":"Support","terr":[terr,first,i]})
+                deltaPosition[terr] = terr
+            unitCount -= 1
+            for j in neighbors:
+                    if terr in pickableUnits[j]:
+                        pickableUnits[j].remove(terr)
 
-        i += 1
-    
-    for i in unitTerritories.keys():
-        best = paths[i][0]
-        for j in paths[i]:
-            if territories[best]["score"] < territories[j]["score"] :
-                best = j
-        moves.append({"type":"Move","terr":[i,best]})
+    #Do something with "useless holds"
 
-    
-    
-    moves = resolveMoves(moves)
-
-    attackingMoves = []
-    for i in moves:
-        if i["type"] != "Move": continue
-        attackingMoves.append(i)
+    toPop = []
     for i in range(len(moves)):
-        if moves[i]["type"] != "Hold": continue
-        possibleSupports = {}
-        for j in attackingMoves:
-            if j["terr"][1] in paths[moves[i]["terr"][0]]:
-                possibleSupports[j["terr"][1]] = j["terr"][0]
-        if len(possibleSupports.keys()) == 0: continue
-        best = list(possibleSupports.keys())[0]
-        for j in possibleSupports.keys():
-            if otherStrengths[j] < otherStrengths[best]:
-                best = j
-            # print(otherStrengths[best])
-        otherStrengths[best] += 1
-        moves[i] = {"type":"Support","terr":[moves[i]["terr"][0],possibleSupports[best],best]}
+        if moves[i]["Type"] != "Hold": continue
+        terr = moves[i]["terr"][0]
+        for j in moves:
+            if j ["Type"] == "Hold": continue
+            if j["terr"][0] == terr:
+                toPop.append(i)
+                break
+        for j in deltaPosition.keys():
+            if deltaPosition[j] in paths[terr]:
+                moves[i] = {"Type":"Support","terr":[terr, j, deltaPosition[j]]}
+                break
+    for i in toPop:
+        moves.pop(i)
 
-    for player in requestedMoves.keys():
-        for request in requestedMoves[country]:
-            if request in moves:
-                replies[player].append("Affirmative")
-                externalTrust[player] *= 1.2
-                continue
-            if request["type"] == "Convoy":
-                replies[player].append("Negative")
-                externalTrust[player] /= 1.2
-                continue
-            if request["type"] == "Support":
-                attacked = request["terr"][2]
-                if territories[attacked]["owner"] == country or trust[territories[attacked]["owner"]] > trust[player]:
-                    replies[player].append("Negative")
-                    externalTrust[player] /= 1.2
-                else:
-                    replies[player].append("Affirmative")
-                    externalTrust[player] *= 1.2
+    print(moves)
     
-    messagesToSend = {}
-    for i in countries:
-        messagesToSend[i] = ""
 
-    for i in otherStrengths.keys():
-        if territories[i]["owner"] == "" or territories[i]["owner"] == country: continue
-        if messagesToSend[territories[i]["owner"]] != "": continue
-        unitType = ''
-        
-        for j in units.values():
-            if j["owner"] == territories[i]["owner"] and j["loc"] == i:
-                unitType = j["type"]
-        unitType = {"a":"Army", "f":"Fleet"}[unitType]
+    for i in insufficientSupport.keys():
+        if i in deltaPosition.values() or i in deltaPosition.keys(): continue
+        recipient = ""
+        recipientUnit = ""
+        maxTrust = 0
         for j in paths[i]:
-            if j in otherStrengths.keys(): continue
-            if (territories[j]["type"] == "Land" and unitType == "Fleet") or (territories[j]["type"] == "Sea" and unitType == "Army"): continue
-            messagesToSend[territories[i]["owner"]] = "You should move your " + unitType + " from **" + i + "** to **" + j + "**." 
-            for k in range(len(moves)):
-                if moves[k]["type"] != "Hold": continue
-                if moves[k]["terr"][0] not in paths[j]: continue
-                messagesToSend[territories[i]["owner"]] += " In return, I'll support your " + unitType + " in **" + i + "** advancing into **" + j + "** with the unit in **" + k + "**."
-                moves[k] == {"type":"Support","terr":[moves[k]["terr"][0],i, j]}
+            if j not in units.keys(): continue
+            r = units[j]["owner"]
+            if maxTrust > trust[r]: continue
+            recipient = r
+            recipientUnit = j
+            maxTrust = trust[r]
+        if recipient == "" or messagesToSend[recipient] != "": continue
+        if (i in units.keys() and units[i]["owner"] == recipient) or territories[i]["owner"] == recipient : continue
+        demand = 0
+        unit = leastValuableUnit(availableUnits, i, [])
+        if unit == '': continue
+        T = externalTrust[recipient]
+        if T > 0.75: demand = 1
+        if T > 1.5: demand = 2
+        message = "We " + {0:"might want to",1:"should",2:"must"}[demand] + " support the " + {'a':'Army','f':'Fleet'}[units[unit]["type"]] + " in **" + unit + "** advancing into **" + i + "** with the unit in **" + recipientUnit + "**." 
+        messagesToSend[recipient] = message
 
-    needsSupport = {}
-    for i in moves:
-        if i["type"] != "Move": continue
-        unitType = ""
-        for j in units.values():
-            if j["loc"] != i["terr"][0]: continue
-            unitType = j["type"]
-        unitType = {"a":"Army", "f":"Fleet"}[unitType]
-        needsSupport[i["terr"][1]] = {"type":unitType,"from":i["terr"][0]}
+    print(messagesToSend)
+    return
+
+    
+            
+def leastValuableUnit(availableUnits, terr, immobileUnits):
+    minReliance = ""
+    minScore = 75
+    for i in availableUnits[terr]:
+        if i in immobileUnits: continue
+        score = 0
+        for j in availableUnits.values():
+            if i in j:
+                score += 1
+        if score < minScore:
+            minReliance = i 
+    return minReliance
+
+    # for player in requestedMoves.keys():
+    #     for request in requestedMoves[country]:
+    #         if request in moves:
+    #             replies[player].append("Affirmative")
+    #             externalTrust[player] *= 1.2
+    #             continue
+    #         if request["type"] == "Convoy":
+    #             replies[player].append("Negative")
+    #             externalTrust[player] /= 1.2
+    #             continue
+    #         if request["type"] == "Support":
+    #             attacked = request["terr"][2]
+    #             if territories[attacked]["owner"] == country or trust[territories[attacked]["owner"]] > trust[player]:
+    #                 replies[player].append("Negative")
+    #                 externalTrust[player] /= 1.2
+    #             else:
+    #                 replies[player].append("Affirmative")
+    #                 externalTrust[player] *= 1.2
+    
+    # messagesToSend = {}
+    # for i in countries:
+    #     messagesToSend[i] = ""
+
+    # for i in otherStrengths.keys():
+    #     if territories[i]["owner"] == "" or territories[i]["owner"] == country: continue
+    #     if messagesToSend[territories[i]["owner"]] != "": continue
+    #     unitType = ''
+        
+    #     for j in units.values():
+    #         if j["owner"] == territories[i]["owner"] and j["loc"] == i:
+    #             unitType = j["type"]
+    #     if unitType == '': continue
+    #     unitType = {"a":"Army", "f":"Fleet"}[unitType]
+    #     for j in paths[i]:
+    #         if j in otherStrengths.keys(): continue
+    #         if (territories[j]["type"] == "Land" and unitType == "Fleet") or (territories[j]["type"] == "Sea" and unitType == "Army"): continue
+    #         messagesToSend[territories[i]["owner"]] = "You should move your " + unitType + " from **" + i + "** to **" + j + "**." 
+    #         for k in range(len(moves)):
+    #             if moves[k]["type"] != "Hold": continue
+    #             if moves[k]["terr"][0] not in paths[j]: continue
+    #             messagesToSend[territories[i]["owner"]] += " In return, I'll support your " + unitType + " in **" + i + "** advancing into **" + j + "** with the unit in **" + k + "**."
+    #             moves[k] == {"type":"Support","terr":[moves[k]["terr"][0],i, j]}
+
+    # needsSupport = {}
+    # for i in moves:
+    #     if i["type"] != "Move": continue
+    #     unitType = ""
+    #     for j in units.values():
+    #         if j["loc"] != i["terr"][0]: continue
+    #         unitType = j["type"]
+    #     unitType = {"a":"Army", "f":"Fleet"}[unitType]
+    #     needsSupport[i["terr"][1]] = {"type":unitType,"from":i["terr"][0]}
 
 
-    for i in needsSupport.keys():
-        for j in units.values():
-            if j["loc"] not in paths[i]: continue
-            if j["owner"] == country: continue
-            if messagesToSend[j["owner"]] != "": continue
-            messagesToSend[j["owner"]] = "We should support the " + needsSupport[i]["type"] + " in **" + needsSupport[i]["from"] + "** advancing into **" + i + "** with the unit in **" + j["loc"] + "**."
+    # for i in needsSupport.keys():
+    #     for j in units.values():
+    #         if j["loc"] not in paths[i]: continue
+    #         if j["owner"] == country: continue
+    #         if messagesToSend[j["owner"]] != "": continue
+    #         messagesToSend[j["owner"]] = "We should support the " + needsSupport[i]["type"] + " in **" + needsSupport[i]["from"] + "** advancing into **" + i + "** with the unit in **" + j["loc"] + "**."
     # print(netStrengths)
 
-    print("Moves: " + str(moves)) 
-    print("Messages: " + str(messagesToSend))
+    # print("Moves: " + str(moves)) 
+    # print("Messages: " + str(messagesToSend))
+    # print("Replies: " +  str(replies))
 
     
 
@@ -230,3 +277,9 @@ def resolveMoves(moves):
         else:
             terr[moves[i]["terr"][1]] = moves[i]["terr"][0]
     return moves
+print("For France:")
+analyzeMoves("FRA")
+print("For England:")
+analyzeMoves("ENG")
+print("For Burgandy:")
+analyzeMoves("BUR")

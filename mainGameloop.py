@@ -14,7 +14,7 @@ while active:
     turn = input("Turn: ")
     turn = turn.split()
     buildBoard()
-    print(promisedMoves)
+    # print(promisedMoves)
     match turn[-1]:
         case "movement":
             updateTrust("TUR")

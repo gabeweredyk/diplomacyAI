@@ -7,9 +7,9 @@ def analyzeRetreats(inputStr):
     retreats = []
     for terr in terrs:
         validRetreatLocs = paths[terr]
-        for unit in units:
-            if units[unit]["loc"] in validRetreatLocs:
-                validRetreatLocs.remove(units[unit]["loc"])
+        for unit in units.keys():
+            if unit in validRetreatLocs:
+                validRetreatLocs.remove(unit)
 
         retreatLoc = validRetreatLocs[randint(0,len(validRetreatLocs)-1)]
         retreats.append({"type":"Move","terr":[terr,retreatLoc]})

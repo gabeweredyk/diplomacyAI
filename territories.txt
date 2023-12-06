@@ -1,7 +1,3 @@
-AUS: bud, tri, vie (3 total).
-ENG: edi, lvp, lon (3 total).
-FRA: bre, mar, par (3 total).
-GER: ber, kie, mun (3 total).
-ITL: nap, rom, ven (3 total).
-RUS: mos, sev, stp, war (4 total).
-TUR: ank, con, smy (3 total).
+BUR: dij, fla, hol, lux (4 total).
+ENG: cal, dev, guy, lon, nmd (5 total).
+FRA: dau, orl, par, tou (4 total).

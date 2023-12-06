@@ -1,21 +1,22 @@
 from readJDIP import *
-
 self = "TUR"
 promisedMoves = {}
 requestedMoves = {}
 replies = {}
+
+
 
 for i in countries:
     promisedMoves[i] = []
     requestedMoves[i] = []
 
 
+
+
 def ownsTerritory(player, territory):
     global units
-    for i in units.values():
-        if i["owner"] == player and i["loc"] == territory:
-            return True
-    return False
+    if territory not in units.keys(): return False
+    return units[territory]["owner"] == player
 
 def interpretMessage():
     global countries

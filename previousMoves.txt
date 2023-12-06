@@ -1,0 +1,32 @@
+AUS:
+AUS: A bud -> rum
+AUS: F tri -> alb
+AUS: A vie -> gal
+ENG:
+ENG: F edi -> nth
+ENG: A lvp -> yor
+ENG: F lon -> eng
+FRA:
+FRA: F bre -> mao
+FRA: A mar -> spa
+FRA: A par -> bur
+GER:
+No order for unit at ber. Hold order assigned.
+No order for unit at kie. Hold order assigned.
+
+GER: A ber Holds
+GER: F kie Holds
+GER: A mun -> boh
+ITL:
+ITL: F nap -> apu
+ITL: A rom -> tus
+ITL: A ven Holds
+RUS:
+RUS: A mos -> ukr
+RUS: F sev Holds
+RUS: F stp/sc -> fin
+RUS: A war Holds
+TUR:
+TUR: F ank -> bla
+TUR: A con -> bul
+TUR: A smy -> arm

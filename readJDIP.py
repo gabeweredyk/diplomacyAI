@@ -1,90 +1,31 @@
+import numpy as np
+
 units = dict()
 paths = dict()
 previousMoves = dict()
 
-trust = {"FRA":1,"ENG":1,"GER":1,"ITL":1,"AUS":1,"RUS":1,"TUR":-1}
-externalTrust = {"FRA":1,"ENG":1,"GER":1,"ITL":1,"AUS":1,"RUS":1,"TUR":-1}
-countries = ["AUS", "ENG", "FRA", "GER", "ITL", "RUS", "TUR"]
-self = "TUR"
-home = ["ank", "con", "smy"]
+def sortByValues(dict, value):
+    keys = list(dict.keys())
+    realValues = list(dict.values())
+    values = []
+    for i in dict.values():
+        values.append(i[value])
+    sorted_value_index = np.argsort(values)[::-1]
+    sorted_dict = {keys[i]: realValues[i] for i in sorted_value_index}
+    return sorted_dict
 
-territories = {
-        "nao": {"supply":False,"type":"Sea","owner":""},
-        "nwg": {"supply":False,"type":"Sea","owner":""},
-        "bar": {"supply":False,"type":"Sea","owner":""},
-        "cly": {"supply":False,"type":"Coast","owner":""},
-        "edi": {"supply":True,"type":"Coast","owner":"ENG"},
-        "nth": {"supply":False,"type":"Sea","owner":""},
-        "nwy": {"supply":True,"type":"Coast","owner":""},
-        "lvp": {"supply":True,"type":"Coast","owner":"ENG"},
-        "iri": {"supply":False,"type":"Sea","owner":""},
-        "yor": {"supply":False,"type":"Coast","owner":""},
-        "wal": {"supply":False,"type":"Coast","owner":""},
-        "ska": {"supply":False,"type":"Sea","owner":""},
-        "swe": {"supply":True,"type":"Coast","owner":""},
-        "fin": {"supply":False,"type":"Coast","owner":""},
-        "stp": {"supply":True,"type":"Coast","owner":"RUS"},
-        "lon": {"supply":True,"type":"Coast","owner":"ENG"},
-        "den": {"supply":True,"type":"Coast","owner":""},
-        "eng": {"supply":False,"type":"Sea","owner":""},
-        "hel": {"supply":False,"type":"Sea","owner":""},
-        "bal": {"supply":False,"type":"Sea","owner":""},
-        "bot": {"supply":False,"type":"Sea","owner":""},
-        "bel": {"supply":True,"type":"Coast","owner":""},
-        "hol": {"supply":True,"type":"Coast","owner":""},
-        "bre": {"supply":True,"type":"Coast","owner":"FRA"},
-        "pic": {"supply":False,"type":"Coast","owner":""},
-        "ruh": {"supply":False,"type":"Land","owner":""},
-        "kie": {"supply":True,"type":"Coast","owner":"GER"},
-        "ber": {"supply":True,"type":"Coast","owner":"GER"},
-        "pru": {"supply":False,"type":"Coast","owner":""},
-        "lvn": {"supply":False,"type":"Coast","owner":""},
-        "par": {"supply":True,"type":"Land","owner":"FRA"},
-        "bur": {"supply":False,"type":"Land","owner":""},
-        "war": {"supply":True,"type":"Land","owner":"RUS"},
-        "mos": {"supply":True,"type":"Land","owner":"RUS"},
-        "gas": {"supply":False,"type":"Coast","owner":""},
-        "mun": {"supply":True,"type":"Land","owner":"GER"},
-        "sil": {"supply":False,"type":"Land","owner":""},
-        "mar": {"supply":True,"type":"Coast","owner":"FRA"},
-        "tyr": {"supply":False,"type":"Land","owner":""},
-        "boh": {"supply":False,"type":"Land","owner":""},
-        "gal": {"supply":False,"type":"Land","owner":""},
-        "ukr": {"supply":False,"type":"Land","owner":""},
-        "sev": {"supply":True,"type":"Coast","owner":"RUS"},
-        "pie": {"supply":False,"type":"Coast","owner":""},
-        "vie": {"supply":True,"type":"Land","owner":"AUS"},
-        "rum": {"supply":True,"type":"Coast","owner":""},
-        "bla": {"supply":False,"type":"Sea","owner":""},
-        "arm": {"supply":False,"type":"Coast","owner":""},
-        "por": {"supply":True,"type":"Coast","owner":""},
-        "spa": {"supply":True,"type":"Coast","owner":""},
-        "tri": {"supply":True,"type":"Coast","owner":"AUS"},
-        "bud": {"supply":True,"type":"Land","owner":"AUS"},
-        "lyo": {"supply":False,"type":"Sea","owner":""},
-        "ven": {"supply":True,"type":"Coast","owner":"ITL"},
-        "ser": {"supply":True,"type":"Land","owner":""},
-        "tus": {"supply":False,"type":"Coast","owner":""},
-        "bul": {"supply":True,"type":"Coast","owner":""},
-        "mao": {"supply":False,"type":"Sea","owner":""},
-        "wes": {"supply":False,"type":"Sea","owner":""},
-        "adr": {"supply":False,"type":"Sea","owner":""},
-        "alb": {"supply":False,"type":"Coast","owner":""},
-        "gre": {"supply":True,"type":"Coast","owner":""},
-        "con": {"supply":True,"type":"Coast","owner":"TUR"},
-        "ank": {"supply":True,"type":"Coast","owner":"TUR"},
-        "rom": {"supply":True,"type":"Coast","owner":"ITL"},
-        "apu": {"supply":False,"type":"Coast","owner":""},
-        "tys": {"supply":False,"type":"Sea","owner":""},
-        "aeg": {"supply":False,"type":"Sea","owner":""},
-        "smy": {"supply":True,"type":"Coast","owner":"TUR"},
-        "nap": {"supply":True,"type":"Coast","owner":"ITL"},
-        "naf": {"supply":False,"type":"Coast","owner":""},
-        "tun": {"supply":True,"type":"Coast","owner":""},
-        "ion": {"supply":False,"type":"Sea","owner":""},
-        "eas": {"supply":False,"type":"Sea","owner":""},
-        "syr": {"supply":False,"type":"Coast","owner":""}
-    }
+trust = {"FRA":1,"ENG":1,"GER":1,"ITL":1,"AUS":1,"RUS":1,"TUR":-1,"BUR":1}
+externalTrust = {"FRA":1,"ENG":1,"GER":1,"ITL":1,"AUS":1,"RUS":1,"TUR":-1,"BUR":1}
+# countries = ["AUS", "ENG", "FRA", "GER", "ITL", "RUS", "TUR"]
+countries = ["ENG", "FRA", "BUR"]
+
+self = "FRA"
+# home = ["ank", "con", "smy"]
+
+# territories = {'rum': {'supply': True, 'type': 'Coast', 'owner': '', 'score': 2400}, 'nth': {'supply': False, 'type': 'Sea', 'owner': '', 'score': 2300}, 'ser': {'supply': True, 'type': 'Land', 'owner': '', 'score': 2150}, 'bul': {'supply': True, 'type': 'Coast', 'owner': '', 'score': 2100}, 'tri': {'supply': True, 'type': 'Coast', 'owner': 'AUS', 'score': 2100}, 'kie': {'supply': True, 'type': 'Coast', 'owner': 'GER', 'score': 1950}, 'mun': {'supply': True, 'type': 'Land', 'owner': 'GER', 'score': 1850}, 'bud': {'supply': True, 'type': 'Land', 'owner': 'AUS', 'score': 1850}, 'den': {'supply': True, 'type': 'Coast', 'owner': '', 'score': 1750}, 'bla': {'supply': False, 'type': 'Sea', 'owner': '', 'score': 1700}, 'nwy': {'supply': True, 'type': 'Coast', 'owner': '', 'score': 1700}, 'gal': {'supply': False, 'type': 'Land', 'owner': '', 'score': 1700}, 'ven': {'supply': True, 'type': 'Coast', 'owner': 'ITL', 'score': 1650}, 'con': {'supply': True, 'type': 'Coast', 'owner': 'TUR', 'score': 1600}, 'bel': {'supply': True, 'type': 'Coast', 'owner': '', 'score': 1600}, 'gre': {'supply': True, 'type': 'Coast', 'owner': '', 'score': 1550}, 'sev': {'supply': True, 'type': 'Coast', 'owner': 'RUS', 'score': 1550}, 'bal': {'supply': False, 'type': 'Sea', 'owner': '', 'score': 1550}, 'vie': {'supply': True, 'type': 'Land', 'owner': 'AUS', 'score': 1500}, 'ion': {'supply': False, 'type': 'Sea', 'owner': '', 'score': 1500}, 'bur': {'supply': False, 'type': 'Land', 'owner': '', 'score': 1500}, 'hol': {'supply': True, 'type': 'Coast', 'owner': '', 'score': 1500}, 'swe': {'supply': True, 'type': 'Coast', 'owner': '', 'score': 1450}, 'war': {'supply': True, 'type': 'Land', 'owner': 'RUS', 'score': 1450}, 'eng': {'supply': False, 'type': 'Sea', 'owner': '', 'score': 1450}, 'mao': {'supply': False, 'type': 'Sea', 'owner': '', 'score': 1450}, 'stp': {'supply': True, 'type': 'Coast', 'owner': 'RUS', 'score': 1400}, 'aeg': {'supply': False, 'type': 'Sea', 'owner': '', 'score': 1400}, 'tyr': {'supply': False, 'type': 'Land', 'owner': '', 'score': 1350}, 'ber': {'supply': True, 'type': 'Coast', 'owner': 'GER', 'score': 1350}, 'mos': {'supply': True, 'type': 'Land', 'owner': 'RUS', 'score': 1350}, 'smy': {'supply': True, 'type': 'Coast', 'owner': 'TUR', 'score': 1350}, 'ukr': {'supply': False, 'type': 'Land', 'owner': '', 'score': 1300}, 'spa': {'supply': True, 'type': 'Coast', 'owner': '', 'score': 1300}, 'ank': {'supply': True, 'type': 'Coast', 'owner': 'TUR', 'score': 1300}, 'ruh': {'supply': False, 'type': 'Land', 'owner': '', 'score': 1250}, 'alb': {'supply': False, 'type': 'Coast', 'owner': '', 'score': 1250}, 'gas': {'supply': False, 'type': 'Coast', 'owner': '', 'score': 1250}, 'hel': {'supply': False, 'type': 'Sea', 'owner': '', 'score': 1200}, 'lvn': {'supply': False, 'type': 'Coast', 'owner': '', 'score': 1200}, 'bre': {'supply': True, 'type': 'Coast', 'owner': 'FRA', 'score': 1150}, 'mar': {'supply': True, 'type': 'Coast', 'owner': 'FRA', 'score': 1150}, 'edi': {'supply': True, 'type': 'Coast', 'owner': 'ENG', 'score': 1150}, 'sil': {'supply': False, 'type': 'Land', 'owner': '', 'score': 1150}, 'tys': {'supply': False, 'type': 'Sea', 'owner': '', 'score': 1150}, 'rom': {'supply': True, 'type': 'Coast', 'owner': 'ITL', 'score': 1150}, 'par': {'supply': True, 'type': 'Land', 'owner': 'FRA', 'score': 1100}, 'ska': {'supply': False, 'type': 'Sea', 'owner': '', 'score': 1100}, 'boh': {'supply': False, 'type': 'Land', 'owner': '', 'score': 1050}, 'nwg': {'supply': False, 'type': 'Sea', 'owner': '', 'score': 1050}, 'arm': {'supply': False, 'type': 'Coast', 'owner': '', 'score': 1050}, 'nap': {'supply': True, 'type': 'Coast', 'owner': 'ITL', 'score': 1050}, 'lon': {'supply': True, 'type': 'Coast', 'owner': 'ENG', 'score': 1050}, 'adr': {'supply': False, 'type': 'Sea', 'owner': '', 'score': 1050}, 'lvp': {'supply': True, 'type': 'Coast', 'owner': 'ENG', 'score': 1000}, 'bot': {'supply': False, 'type': 'Sea', 'owner': '', 'score': 1000}, 'yor': {'supply': False, 'type': 'Coast', 'owner': '', 'score': 950}, 'pru': {'supply': False, 'type': 'Coast', 'owner': '', 'score': 950}, 'lyo': {'supply': False, 'type': 'Sea', 'owner': '', 'score': 950}, 'pic': {'supply': False, 'type': 'Coast', 'owner': '', 'score': 950}, 'apu': {'supply': False, 'type': 'Coast', 'owner': '', 'score': 950}, 'wes': {'supply': False, 'type': 'Sea', 'owner': '', 'score': 900}, 'fin': {'supply': False, 'type': 'Coast', 'owner': '', 'score': 900}, 'tus': {'supply': False, 'type': 'Coast', 'owner': '', 'score': 850}, 'por': {'supply': True, 'type': 'Coast', 'owner': '', 'score': 850}, 'pie': {'supply': False, 'type': 'Coast', 'owner': '', 'score': 850}, 'tun': {'supply': True, 'type': 'Coast', 'owner': '', 'score': 800}, 'bar': {'supply': False, 'type': 'Sea', 'owner': '', 'score': 700}, 'eas': {'supply': False, 'type': 'Sea', 'owner': '', 'score': 700}, 'wal': {'supply': False, 'type': 'Coast', 'owner': '', 'score': 700}, 'iri': {'supply': False, 'type': 'Sea', 'owner': '', 'score': 650}, 'nao': {'supply': False, 'type': 'Sea', 'owner': '', 'score': 600}, 'cly': {'supply': False, 'type': 'Coast', 'owner': '', 'score': 600}, 'syr': {'supply': False, 'type': 'Coast', 'owner': '', 'score': 550}, 'naf': {'supply': False, 'type': 'Coast', 'owner': '', 'score': 500}}
+
+territories = {"min":{"type":"Sea","supply":False,"owner":""},"nth":{"type":"Sea","supply":False,"owner":""},"sco":{"type":"Coast","supply":True,"owner":""},"was":{"type":"Sea","supply":False,"owner":""},"num":{"type":"Coast","supply":False,"owner":""},"pal":{"type":"Coast","supply":False,"owner":""},"iri":{"type":"Sea","supply":False,"owner":""},"bch":{"type":"Sea","supply":False,"owner":""},"ech":{"type":"Sea","supply":False,"owner":""},"dov":{"type":"Sea","supply":False,"owner":""},"atl":{"type":"Sea","supply":False,"owner":""},"med":{"type":"Sea","supply":False,"owner":""},"bis":{"type":"Sea","supply":False,"owner":""},"sav":{"type":"Coast","supply":False,"owner":""},"pro":{"type":"Coast","supply":False,"owner":""},"tou":{"type":"Coast","supply":True,"owner":"FRA"},"ara":{"type":"Coast","supply":False,"owner":""},"cas":{"type":"Coast","supply":True,"owner":""},"guy":{"type":"Coast","supply":True,"owner":"ENG"},"brt":{"type":"Coast","supply":True,"owner":""},"nmd":{"type":"Coast","supply":True,"owner":"ENG"},"cal":{"type":"Coast","supply":True,"owner":"ENG"},"fla":{"type":"Coast","supply":True,"owner":"BUR"},"hol":{"type":"Coast","supply":True,"owner":"BUR"},"fri":{"type":"Coast","supply":False,"owner":""},"wal":{"type":"Coast","supply":False,"owner":""},"dev":{"type":"Coast","supply":True,"owner":"ENG"},"lon":{"type":"Coast","supply":True,"owner":"ENG"},"ang":{"type":"Coast","supply":False,"owner":""},"lux":{"type":"Land","supply":True,"owner":"BUR"},"dij":{"type":"Land","supply":True,"owner":"BUR"},"par":{"type":"Land","supply":True,"owner":"FRA"},"orl":{"type":"Land","supply":True,"owner":"FRA"},"dau":{"type":"Land","supply":True,"owner":"FRA"},"can":{"type":"Land","supply":True,"owner":""},"anj":{"type":"Land","supply":False,"owner":""},"poi":{"type":"Land","supply":False,"owner":""},"lim":{"type":"Land","supply":False,"owner":""},"cha":{"type":"Land","supply":False,"owner":""},"lor":{"type":"Land","supply":False,"owner":""},"als":{"type":"Land","supply":False,"owner":""}}
+
 
 def provinceIndex(territory):
     global territories, paths
@@ -92,29 +33,22 @@ def provinceIndex(territory):
     # additive/subtractive effects
     if territories[territory]["supply"]:
         score += 300
-    if territories[territory]["owner"] == "None":
-        score += 75
     for neighbor in paths[territory]:
         if territories[neighbor]["supply"]:
             score += 150
-        if territories[neighbor]["owner"] == "None":
-            score += 25
         for neighborNeighbor in paths[neighbor]:
             if territories[neighborNeighbor]["supply"]:
                 score += 50
-            if territories[neighborNeighbor]["owner"] == "None":
-                score += 10
-    if territory in home:
-        score += 500
-    if territory == "syr":
-        score -= 5000
+    
+    score += 50 * abs( len(paths[territory]) - 5 )
+
     return score
 
 def initPaths():
     global paths
     for i in territories.keys():
         paths[i] = []
-    f = open('neighbors.txt')
+    f = open('paths3.txt')
     neigh = f.read().split("\n")
     for i in neigh:
         arr = i.split(",")
@@ -130,20 +64,15 @@ def buildBoard():
 
 initPaths()
 
-
-
-
 def fillUnits():
     global units
     f = open('units.txt')
     perCountryUnit = f.read().split("\n")
-    n = 0
     for i in perCountryUnit:
         unitStrings = i.split("\t")
         for j in range(1, len(unitStrings)):
             if unitStrings[j] == '': break
-            units[n] = {"loc":unitStrings[j][2:5],"owner":unitStrings[0],"type":unitStrings[j][0].lower()}
-            n += 1
+            units[unitStrings[j][2:5]] = {"owner":unitStrings[0],"type":unitStrings[j][0].lower()}
     f.close()
 
 def fillTerritories():
@@ -157,10 +86,10 @@ def fillTerritories():
         terrStrings = i.split(" ")
         for j in range(1, len(terrStrings) - 2):
             territories[terrStrings[j][0:3]]["owner"] = country
-    for i in units.values():
-        territories[i["loc"]]["owner"] = i["owner"]
-    
     for i in territories.keys():
         territories[i]["score"] = provinceIndex(i)
+    # for i in units.keys():
+        # territories[i]["owner"] = units[i]["owner"]
+    territories = sortByValues(territories, "score")
 
 buildBoard()

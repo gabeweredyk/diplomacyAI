@@ -16,7 +16,7 @@ def placeUnits(country):
                 coastsCount += 1
             elif territories[terr]["type"] == "Land":
                 landsCount += 1
-    coastsLandsRatio = coastsCount / landsCount
+    coastsLandsRatio = coastsCount / (landsCount+ 1)
 
     ownUnits = []
     for unit in units:
@@ -42,7 +42,7 @@ def placeUnits(country):
                     fleetsCount += 1
                 if tempUnits[unit]["type"] == "A":
                     armiesCount += 1
-            fleetsToArmies = fleetsCount/armiesCount
+            fleetsToArmies = fleetsCount/(armiesCount + 1)
             fEval = fleetsToArmies + (coastsLandsRatio/10)
             typeToBuild = "A"
             if fEval < 0.6:
@@ -50,17 +50,14 @@ def placeUnits(country):
             if "con" in validLocs:
                 placement = {"type":"Build","loc":"con","unitType":typeToBuild}
                 validLocs.remove("con")
-                tempUnits.append({"type":typeToBuild,"loc":"con","owner":country})
             elif "ank" in validLocs:
                 placement = {"type":"Build","loc":"ank","unitType":typeToBuild}
                 validLocs.remove("ank")
-                tempUnits.append({"type":typeToBuild,"loc":"ank","owner":country})
             elif "smy" in validLocs:
                 placement = {"type":"Build","loc":"smy","unitType":typeToBuild}
                 validLocs.remove("smy")
-                tempUnits.append({"type":typeToBuild,"loc":"smy","owner":country})
             if placement:
-                placements.append(placement)
+                placements.append(placement) 
 
     elif unitsNeeded < 0:
         unitsNeeded *= -1

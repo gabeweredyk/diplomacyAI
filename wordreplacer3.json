@@ -1,0 +1,310 @@
+[
+    {
+        "repA": "Minch",
+        "repB": "min",
+        "type": "Simple",
+        "case": "Override",
+        "active": "true"
+    },
+    {
+        "repA": "North Sea",
+        "repB": "nth",
+        "type": "Simple",
+        "case": "Override",
+        "active": "true"
+    },
+    {
+        "repA": "Scotland",
+        "repB": "sco",
+        "type": "Simple",
+        "case": "Override",
+        "active": "true"
+    },
+    {
+        "repA": "The Wash",
+        "repB": "was",
+        "type": "Simple",
+        "case": "Override",
+        "active": "true"
+    },
+    {
+        "repA": "Northumbria",
+        "repB": "num",
+        "type": "Simple",
+        "case": "Override",
+        "active": "true"
+    },
+    {
+        "repA": "The Pale",
+        "repB": "pal",
+        "type": "Simple",
+        "case": "Override",
+        "active": "true"
+    },
+    {
+        "repA": "Irish Sea",
+        "repB": "iri",
+        "type": "Simple",
+        "case": "Override",
+        "active": "true"
+    },
+    {
+        "repA": "Bristol Channel",
+        "repB": "bch",
+        "type": "Simple",
+        "case": "Override",
+        "active": "true"
+    },
+    {
+        "repA": "English Channel",
+        "repB": "ech",
+        "type": "Simple",
+        "case": "Override",
+        "active": "true"
+    },
+    {
+        "repA": "Strait of Dover",
+        "repB": "dov",
+        "type": "Simple",
+        "case": "Override",
+        "active": "true"
+    },
+    {
+        "repA": "Atlantic",
+        "repB": "atl",
+        "type": "Simple",
+        "case": "Override",
+        "active": "true"
+    },
+    {
+        "repA": "Mediterranean Sea",
+        "repB": "med",
+        "type": "Simple",
+        "case": "Override",
+        "active": "true"
+    },
+    {
+        "repA": "Biscay",
+        "repB": "bis",
+        "type": "Simple",
+        "case": "Override",
+        "active": "true"
+    },
+    {
+        "repA": "Savoy",
+        "repB": "sav",
+        "type": "Simple",
+        "case": "Override",
+        "active": "true"
+    },
+    {
+        "repA": "Provence",
+        "repB": "pro",
+        "type": "Simple",
+        "case": "Override",
+        "active": "true"
+    },
+    {
+        "repA": "Toulouse",
+        "repB": "tou",
+        "type": "Simple",
+        "case": "Override",
+        "active": "true"
+    },
+    {
+        "repA": "Aragon",
+        "repB": "ara",
+        "type": "Simple",
+        "case": "Override",
+        "active": "true"
+    },
+    {
+        "repA": "Castile",
+        "repB": "cas",
+        "type": "Simple",
+        "case": "Override",
+        "active": "true"
+    },
+    {
+        "repA": "Guyenne",
+        "repB": "guy",
+        "type": "Simple",
+        "case": "Override",
+        "active": "true"
+    },
+    {
+        "repA": "Brittany",
+        "repB": "brt",
+        "type": "Simple",
+        "case": "Override",
+        "active": "true"
+    },
+    {
+        "repA": "Normandy",
+        "repB": "nmd",
+        "type": "Simple",
+        "case": "Override",
+        "active": "true"
+    },
+    {
+        "repA": "Calais",
+        "repB": "cal",
+        "type": "Simple",
+        "case": "Override",
+        "active": "true"
+    },
+    {
+        "repA": "Flanders",
+        "repB": "fla",
+        "type": "Simple",
+        "case": "Override",
+        "active": "true"
+    },
+    {
+        "repA": "Holland",
+        "repB": "hol",
+        "type": "Simple",
+        "case": "Override",
+        "active": "true"
+    },
+    {
+        "repA": "Friesland",
+        "repB": "fri",
+        "type": "Simple",
+        "case": "Override",
+        "active": "true"
+    },
+    {
+        "repA": "Wales",
+        "repB": "wal",
+        "type": "Simple",
+        "case": "Override",
+        "active": "true"
+    },
+    {
+        "repA": "Devon",
+        "repB": "dev",
+        "type": "Simple",
+        "case": "Override",
+        "active": "true"
+    },
+    {
+        "repA": "London",
+        "repB": "lon",
+        "type": "Simple",
+        "case": "Override",
+        "active": "true"
+    },
+    {
+        "repA": "Anglia",
+        "repB": "ang",
+        "type": "Simple",
+        "case": "Override",
+        "active": "true"
+    },
+    {
+        "repA": "Luxembourg",
+        "repB": "lux",
+        "type": "Simple",
+        "case": "Override",
+        "active": "true"
+    },
+    {
+        "repA": "Dijon",
+        "repB": "dij",
+        "type": "Simple",
+        "case": "Override",
+        "active": "true"
+    },
+    {
+        "repA": "Paris",
+        "repB": "par",
+        "type": "Simple",
+        "case": "Override",
+        "active": "true"
+    },
+    {
+        "repA": "Orleanais",
+        "repB": "orl",
+        "type": "Simple",
+        "case": "Override",
+        "active": "true"
+    },
+    {
+        "repA": "Dauphine",
+        "repB": "dau",
+        "type": "Simple",
+        "case": "Override",
+        "active": "true"
+    },
+    {
+        "repA": "Cantons",
+        "repB": "can",
+        "type": "Simple",
+        "case": "Override",
+        "active": "true"
+    },
+    {
+        "repA": "Anjou",
+        "repB": "anj",
+        "type": "Simple",
+        "case": "Override",
+        "active": "true"
+    },
+    {
+        "repA": "Poitou",
+        "repB": "poi",
+        "type": "Simple",
+        "case": "Override",
+        "active": "true"
+    },
+    {
+        "repA": "Limousin",
+        "repB": "lim",
+        "type": "Simple",
+        "case": "Override",
+        "active": "true"
+    },
+    {
+        "repA": "Charolais",
+        "repB": "cha",
+        "type": "Simple",
+        "case": "Override",
+        "active": "true"
+    },
+    {
+        "repA": "Lorraine",
+        "repB": "lor",
+        "type": "Simple",
+        "case": "Override",
+        "active": "true"
+    },
+    {
+        "repA": "Alsace",
+        "repB": "als",
+        "type": "Simple",
+        "case": "Override",
+        "active": "true"
+    },
+    {
+        "repA": "England",
+        "repB": "ENG",
+        "type": "Simple",
+        "case": "Override",
+        "active": "true"
+    },
+    {
+        "repA": "Burgundy",
+        "repB": "BUR",
+        "type": "Simple",
+        "case": "Override",
+        "active": "true"
+    },
+    {
+        "repA": "France",
+        "repB": "FRA",
+        "type": "Simple",
+        "case": "Override",
+        "active": "true"
+    }
+]

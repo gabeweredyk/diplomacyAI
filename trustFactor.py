@@ -1,6 +1,6 @@
 from readJDIP import *
 from messageAnalysis import promisedMoves
-trust = {"FRA":1,"ENG":1,"GER":1,"ITL":1,"AUS":1,"RUS":1,"TUR":1}
+# trust = {"FRA":1,"ENG":1,"GER":1,"ITL":1,"AUS":1,"RUS":1,"TUR":1}
 R = 1.2
 
 def fillPreviousMoves():

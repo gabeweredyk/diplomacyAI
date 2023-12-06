@@ -1,7 +1,3 @@
-AUS	A bud	A vie	F tri	
-ENG	A lvp	F edi	F lon	
-FRA	A mar	A par	F bre	
-GER	A ber	A mun	F kie	
-ITL	A rom	A ven	F nap	
-RUS	A mos	A war	F sev	F stp
-TUR	A con	A smy	F ank	
+BUR	A hol	A lor	A lux	F was	
+ENG	A ara	A cal	A par	F bch	F dov
+FRA	A dau	A dij	A guy	A nmd	A pro

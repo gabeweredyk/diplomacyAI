@@ -1,0 +1,579 @@
+{
+    "version": "2.0.10",
+    "replacements": [
+      {
+        "repA": "Adriatic Sea",
+        "repB": "adr",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Aegean Sea",
+        "repB": "aeg",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Albania",
+        "repB": "alb",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Ankara",
+        "repB": "ank",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Apulia",
+        "repB": "apu",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Armenia",
+        "repB": "arm",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Baltic Sea",
+        "repB": "bal",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Barents Sea",
+        "repB": "bar",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Belgium",
+        "repB": "bel",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Berlin",
+        "repB": "ber",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Black Sea",
+        "repB": "bla",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Bohemia",
+        "repB": "boh",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Brest",
+        "repB": "bre",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Budapest",
+        "repB": "bud",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Bulgaria",
+        "repB": "bul",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Burgundy",
+        "repB": "bur",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Clyde",
+        "repB": "cly",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Constantinople",
+        "repB": "con",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Denmark",
+        "repB": "den",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Eastern Mediterranean",
+        "repB": "eas",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Edinburgh",
+        "repB": "edi",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "English Channel",
+        "repB": "eng",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Finland",
+        "repB": "fin",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Galicia",
+        "repB": "gal",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Gascony",
+        "repB": "gas",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Greece",
+        "repB": "gre",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Gulf of Lyon",
+        "repB": "lyo",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Gulf of Bothnia",
+        "repB": "bot",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Helgoland Bight",
+        "repB": "hel",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Holland",
+        "repB": "hol",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Ionian Sea",
+        "repB": "ion",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Irish Sea",
+        "repB": "iri",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Kiel",
+        "repB": "kie",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Liverpool",
+        "repB": "lvp",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Livonia",
+        "repB": "lvn",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "London",
+        "repB": "lon",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Marseilles",
+        "repB": "mar",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Mid-Atlantic Ocean",
+        "repB": "mao",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Moscow",
+        "repB": "mos",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Munich",
+        "repB": "mun",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Naples",
+        "repB": "nap",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "North Atlantic Ocean",
+        "repB": "nao",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "North Africa",
+        "repB": "naf",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "North Sea",
+        "repB": "nth",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Norway",
+        "repB": "nwy",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Norwegian Sea",
+        "repB": "nwg",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Paris",
+        "repB": "par",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Picardy",
+        "repB": "pic",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Piedmont",
+        "repB": "pie",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Portugal",
+        "repB": "por",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Prussia",
+        "repB": "pru",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Rome",
+        "repB": "rom",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Ruhr",
+        "repB": "ruh",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Rumania",
+        "repB": "rum",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Serbia",
+        "repB": "ser",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Sevastopol",
+        "repB": "sev",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Silesia",
+        "repB": "sil",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Skagerrak",
+        "repB": "ska",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Smyrna",
+        "repB": "smy",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Spain",
+        "repB": "spa",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "St. Petersburg",
+        "repB": "stp",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Sweden",
+        "repB": "swe",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Syria",
+        "repB": "syr",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Trieste",
+        "repB": "tri",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Tunis",
+        "repB": "tun",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Tuscany",
+        "repB": "tus",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Tyrolia",
+        "repB": "tyr",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Tyrrhenian Sea",
+        "repB": "tys",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Ukraine",
+        "repB": "ukr",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Venice",
+        "repB": "ven",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Vienna",
+        "repB": "vie",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Wales",
+        "repB": "wal",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Warsaw",
+        "repB": "war",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Western Mediterranean",
+        "repB": "wes",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Yorkshire",
+        "repB": "yor",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Austria",
+        "repB": "AUS",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "England",
+        "repB": "ENG",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "France",
+        "repB": "FRA",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Germany",
+        "repB": "GER",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Italy",
+        "repB": "ITL",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Russia",
+        "repB": "RUS",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      },
+      {
+        "repA": "Turkey",
+        "repB": "TUR",
+        "type": "Simple",
+        "case": "Override",
+        "active": true
+      }
+    ]
+  }
