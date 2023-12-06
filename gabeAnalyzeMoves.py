@@ -119,8 +119,6 @@ def analyzeMoves(country):
         #If you are considering an attack on a territory with a stationary unit, dont
         
         if i in deltaPosition.keys(): 
-            print("Considered position w/ unit: " + i)
-            print("Position that unit is moving to: " + deltaPosition[i])
             if  deltaPosition[i] == i : continue
         #hold is true iff the considered territory has a unit inside of it. Prioritizes holds since holds have 1.5 strength while movements have 1 strength
         hold = i in pickableUnits[i]
@@ -175,7 +173,6 @@ def analyzeMoves(country):
             for j in neighbors:
                     if terr in pickableUnits[j]:
                         pickableUnits[j].remove(terr)
-        print(moves)
 
     #Do something with "useless holds"
 
