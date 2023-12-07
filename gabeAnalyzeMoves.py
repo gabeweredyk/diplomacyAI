@@ -76,7 +76,6 @@ def analyzeMoves(country, usedUnits):
 
     #accounts for agreed upon moves
     for i in usedUnits.keys():
-        print(usedUnits[i])
         expectedStrengths[usedUnits[i]] -= 2
         if i == usedUnits[i]: expectedStrengths[usedUnits[i]] -= 0.5
 
@@ -88,7 +87,6 @@ def analyzeMoves(country, usedUnits):
     for i in neighbors:
         if expectedStrengths[i] <= 0: neededStrengths[i] = 0
         else: neededStrengths[i] =  int( expectedStrengths[i] + 1)
-    print(expectedStrengths.keys() )
 
     #For every territory in neighbor, get all the units that could possibly assist in an attack/defense on that territory
     availableUnits = {}
@@ -201,7 +199,15 @@ def analyzeMoves(country, usedUnits):
         moves.pop(i)
 
     #Then bamn! moves
-    print(moves)
+    print("Moves:")
+    for i in moves:
+        match i["Type"]:
+            case "Hold":
+                print("Hold " + i["terr"][0] )
+            case "Move":
+                print(i["terr"][0] + " -> " + i["terr"][1] )
+            case "Support":
+                print(i["terr"][0] + " supports " + i["terr"][1] + " -> " + i["terr"][2])
 
     #Goes through the territories it didnt feel confident in claiming
     for i in insufficientSupport.keys():
@@ -239,7 +245,11 @@ def analyzeMoves(country, usedUnits):
         movesToSend[recipient] = {"Type":"Support","terr":[recipientUnit, unit, i]}
         messagesToSend[recipient] = message
 
-    print(messagesToSend)
+    print("Messages:")
+    for i, message in messagesToSend.items():
+        if message == "": continue
+        print("To " + i + ": " + message)
+
     return movesToSend
 
     

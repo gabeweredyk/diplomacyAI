@@ -13,8 +13,6 @@ def placeUnits(country):
         if territories[terr]["owner"] != country: continue
         if terr in units.keys(): continue
         validLocs.append(terr)
-
-    print(validLocs)
     
     coastsCount = 0
     landsCount = 0

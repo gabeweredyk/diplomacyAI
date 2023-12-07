@@ -3,6 +3,7 @@ import numpy as np
 units = dict()
 paths = dict()
 previousMoves = dict()
+promisedMoves = dict()
 
 messagesToSend = {"ENG":"","FRA":"","BUR":""}
 movesToSend = {"ENG":{},"FRA":{},"BUR":{}}
@@ -20,8 +21,6 @@ def sortByValues(dict, value):
     sorted_dict = {keys[i]: realValues[i] for i in sorted_value_index}
     return sorted_dict
 
-trust = {"FRA":1,"ENG":1,"GER":1,"ITL":1,"AUS":1,"RUS":1,"TUR":-1,"BUR":1}
-externalTrust = {"FRA":1,"ENG":1,"GER":1,"ITL":1,"AUS":1,"RUS":1,"TUR":-1,"BUR":1}
 # countries = ["AUS", "ENG", "FRA", "GER", "ITL", "RUS", "TUR"]
 countries = ["ENG", "FRA", "BUR"]
 

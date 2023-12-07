@@ -19,6 +19,7 @@ def interpretMessage(movesToSend):
     global countries, messagesToSend
     usedUnits = {}
     player = ""
+    print("Now consider other players' messages: ")
     while player != "BREAK":
         player = input("From: ").strip()
         if player not in countries: continue

@@ -12,9 +12,6 @@ import random
 
 active = True
 
-
-
-
 while active:
     # takes the current turn and uses that to decide what it should be doing
     # example turn input - "Fall 1902, Moves"

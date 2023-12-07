@@ -14,5 +14,5 @@ def analyzeRetreats(inputStr):
         retreatLoc = validRetreatLocs[randint(0,len(validRetreatLocs)-1)]
         retreats.append({"type":"Move","terr":[terr,retreatLoc]})
     
-    print(retreats)
-
+    for i in retreats:
+        print(i["terr"][0] + " -> " + i["terr"][1])
