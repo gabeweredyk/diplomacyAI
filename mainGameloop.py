@@ -11,6 +11,7 @@ from placeUnits import *
 import random
 
 active = True
+initialTerritoryScore()
 
 while active:
     # takes the current turn and uses that to decide what it should be doing

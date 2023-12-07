@@ -2,7 +2,11 @@ from readJDIP import *
 # trust = {"FRA":1,"ENG":1,"GER":1,"ITL":1,"AUS":1,"RUS":1,"TUR":1}
 R = 1.2
 
-
+def updateSocialValues():
+    global previousMoves, self
+    fillPreviousMoves()
+    increaseTerrValues(previousMoves)
+    updateTrust(self)    
 
 def fillPreviousMoves():
     global previousMoves, countries
@@ -41,10 +45,16 @@ def updateTrust(country):
                 trust[i] *= R
             else:
                 trust[i] /= R
-    print("Updated trust: " + str(trust))
+    # print("Updated trust: " + str(trust))
 
 def increaseTerrValues(moves):
+    global territories, self, attemptedMoves
     interests = {}
     for i in territories:
         interests[i] = 0
-    # for i in moves:
+    for i in moves:
+        interests[i["terr"][-1]] += 1
+    for i in attemptedMoves:
+        interests[i["terr"][-1]] -= 1
+    for terr, intertest in interests.items():
+        territories[terr]["score"] *= 1 + intertest/20

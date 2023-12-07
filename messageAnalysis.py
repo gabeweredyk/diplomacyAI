@@ -70,10 +70,29 @@ def interpretMessage(movesToSend):
         
 
 
+def evaluateRequest(country, move):
+    global moves, trust, self, territories
+    for i in moves:
+        if equalMoves(move, i): return True
+    if move["type"] == "Convoy":
+        return False
+    attackingTerr = move["terr"][-1]
+    if (attackingTerr in units.keys() and units[attackingTerr] == self) or territories[attackingTerr]["owner"] == self: return False
+    return trustPlayer(country)
+
+def trustPlayer(country):
+    global trust
+    rng = np.random.default_rng()
+    X = rng.normal(1 + R/2, R)
+    return trust[country] > X
 
 def storeMove(country, move):
     global promisedMoves, requestedMoves, self
     if (ownsTerritory(country, move["terr"][0])):
         promisedMoves[country].append( move)
     elif (ownsTerritory(self, move["terr"][0])):
-        requestedMoves[country].append( move)
+        response = {True:"Affirmative", False:"Negative"}[evaluateRequest(country, move)]
+        print("Reply to " + country + ": " + response)
+        if (response == "Negative"): return
+        requestedMoves[country].append(move)
+

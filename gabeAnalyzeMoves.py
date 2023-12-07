@@ -16,7 +16,7 @@ predProbability = {"AUS":0.5,"ENG":0.5,"FRA":0.5,"GER":0.5,"ITL":0.5,"RUS":0.5,"
 
 #used units is populated with a dictionary that points a usedUnit to where it gives strength
 def analyzeMoves(country, usedUnits):
-    global units, paths, countries, territories, trust, predProbability, messagesToSend, movesToSend
+    global units, paths, countries, territories, trust, predProbability, messagesToSend, movesToSend, moves, requestedMoves
 
     # Unit count counts the total number of units the bot has at any given time
     unitCount = 0
@@ -116,6 +116,15 @@ def analyzeMoves(country, usedUnits):
     immobileUnits = []
     moves = []
 
+    #Performs all of the requested moves it can make:
+    for i in requestedMoves.values():
+        for j in i:
+            if j["terr"][0] not in pickableUnits[j["terr"][-1]]: continue
+            moves.append(j)
+            for k in neighbors:
+                    if terr in pickableUnits[k]:
+                        pickableUnits[k].remove(terr)
+
     #note neighbors is now ordered by value, meaning it starts with territories it wants the most
     for i in neighbors:
         #If there are no more units left, forget about it. unitCount decrements with every move assigned
@@ -141,7 +150,6 @@ def analyzeMoves(country, usedUnits):
         if selfStrength < neededStrengths[i] or not mobile: 
             insufficientSupport[i] = neededStrengths[i] - selfStrength
             continue
-
 
         n = neededStrengths[i]
         first = ""
@@ -244,6 +252,23 @@ def analyzeMoves(country, usedUnits):
         message = "We " + {0:"might want to",1:"should",2:"must"}[demand] + " support the " + {'a':'Army','f':'Fleet'}[units[unit]["type"]] + " in **" + unit + "** advancing into **" + i + "** with the unit in **" + recipientUnit + "**." 
         movesToSend[recipient] = {"Type":"Support","terr":[recipientUnit, unit, i]}
         messagesToSend[recipient] = message
+
+    #Looks for other messages to send
+    for i in countries:
+        if i == self or messagesToSend[i] != "": continue
+        for j in moves:
+            unit = j["terr"][0]
+            terr = j["terr"][-1]
+            if territories[terr]["owner"] != "": continue
+            shouldSend = False
+            for k in paths[terr]:
+                if territories[k]["owner"] == i:
+                    shouldSend = True
+                    break
+            if not shouldSend: continue
+            message = "I want to move my " + units[unit]["type"] + " from **" + unit + "** to **" + terr + "**."
+            movesToSend[recipient] = {"Type":"Move","terr":[unit, terr]}
+            messagesToSend[recipient] = message
 
     print("Messages:")
     for i, message in messagesToSend.items():
