@@ -27,17 +27,16 @@ while active:
             messagesToSend = {"ENG":"","FRA":"","BUR":""}
             movesToSend = analyzeMoves(self, {})
             interpretMessage(movesToSend)
-            
         case "retreat":
             terrsToRetreat = input("Units in these territories need to retreat (separate by commas, no spaces): ")
             analyzeRetreats(terrsToRetreat)
         case "adjustment":
-            placeUnits("TUR")
+            placeUnits(self)
 
         # the following are placeholder game-ending states
         case "Lose":
             active = False
-            print("A shame.")
+            print(":( .")
         case "Win":
             active = False
             winMessages = ["Gadzooks!","Bless my collar button!","Gnarly!","Yeehaw!","Most cool!","Yippee!","Great!","Aye carumba!",

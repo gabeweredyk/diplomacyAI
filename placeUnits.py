@@ -1,12 +1,21 @@
 from readJDIP import *
 import copy
 
+
+
 def placeUnits(country):
-    global units, paths, countries, territories, home
+    global units, paths, countries, territories
     placements = []
     unitsNeeded = 0
     tempUnits = copy.deepcopy(units)
-    validLocs = home
+    validLocs = []
+    for terr in territories:
+        if territories[terr]["owner"] != country: continue
+        if terr in units.keys(): continue
+        validLocs.append(terr)
+
+    print(validLocs)
+    
     coastsCount = 0
     landsCount = 0
     for terr in territories:
@@ -21,11 +30,9 @@ def placeUnits(country):
     ownUnits = []
     for unit in units:
         if units[unit]["owner"] == country:
-            ownUnits.append(units[unit]["loc"])
+            ownUnits.append(unit)
 
     for unit in units:
-        if units[unit]["loc"] in validLocs:
-            validLocs.remove(units[unit]["loc"])
         if units[unit]["owner"] == country:
             unitsNeeded -= 1
     
@@ -47,15 +54,23 @@ def placeUnits(country):
             typeToBuild = "A"
             if fEval < 0.6:
                 typeToBuild = "F"
-            if "con" in validLocs:
-                placement = {"type":"Build","loc":"con","unitType":typeToBuild}
-                validLocs.remove("con")
-            elif "ank" in validLocs:
-                placement = {"type":"Build","loc":"ank","unitType":typeToBuild}
-                validLocs.remove("ank")
-            elif "smy" in validLocs:
-                placement = {"type":"Build","loc":"smy","unitType":typeToBuild}
-                validLocs.remove("smy")
+
+            # Territories are sorted by value by default
+            for i in territories.keys():
+                if i not in validLocs: continue
+                if territories[i]["type"] == "Land" and typeToBuild == "F": continue
+                validLocs.remove(i)
+                placement = {"type":"Build","loc":i,"unitType":typeToBuild}
+                break
+            
+            if not placement:
+                typeToBuild = "A"
+                for i in territories.keys():
+                    if i not in validLocs: continue
+                    validLocs.remove(i)
+                    placement = {"type":"Build","loc":i,"unitType":typeToBuild}
+                    break
+
             if placement:
                 placements.append(placement) 
 
@@ -66,9 +81,9 @@ def placeUnits(country):
             for unit in ownUnits:
                 dangerScore = 0
                 for newUnit in units:
-                    if (units[newUnit]["loc"] in paths[unit]) and units[newUnit]["owner"] != country:
+                    if (newUnit in paths[unit]) and units[newUnit]["owner"] != country:
                         dangerScore += 1
-                unitsDangers.append(dangerScore,unit)
+                unitsDangers.append((dangerScore,unit))
             unitsDangers.sort()
             unitToRem = unitsDangers[0][1]
             placements.append({"type":"Destroy","loc":unitToRem})

@@ -1,3 +1,3 @@
 BUR	A dij	A fla	A lux	F hol	
-ENG	A cal	A guy	A nmd	F ech	F lon
-FRA	A dau	A orl	A par	A pro	A tou
+ENG	A cal	A par	A tou	F ech	F lon
+FRA	A anj	A cha	A lim	A pro	A sav
