@@ -255,7 +255,7 @@ def analyzeMoves(country, usedUnits):
 
     #Looks for other messages to send
     for i in countries:
-        if i == self or messagesToSend[i] != "": continue
+        if i == country or messagesToSend[i] != "": continue
         for j in moves:
             unit = j["terr"][0]
             terr = j["terr"][-1]
@@ -267,8 +267,8 @@ def analyzeMoves(country, usedUnits):
                     break
             if not shouldSend: continue
             message = "I want to move my " + units[unit]["type"] + " from **" + unit + "** to **" + terr + "**."
-            movesToSend[recipient] = {"Type":"Move","terr":[unit, terr]}
-            messagesToSend[recipient] = message
+            movesToSend[i] = {"Type":"Move","terr":[unit, terr]}
+            messagesToSend[i] = message
 
     print("Messages:")
     for i, message in messagesToSend.items():

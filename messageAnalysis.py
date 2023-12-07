@@ -38,7 +38,7 @@ def interpretMessage(movesToSend):
             match i:
                 case 0:
                     if word == "Affirmative":
-                        print(movesToSend)
+                        if movesToSend[player]["Type"] != "Support": continue
                         promisedMoves[player].append(movesToSend[player])
                         usedUnits[ movesToSend[player]["terr"][1] ] = movesToSend[player]["terr"][2]
                     selfActor = word != "I"

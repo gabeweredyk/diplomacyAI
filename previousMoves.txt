@@ -1,32 +1,25 @@
-AUS:
-AUS: A bud -> rum
-AUS: F tri -> alb
-AUS: A vie -> gal
+BUR:
+BUR: A dij -> par
+Bounced with nmd (1 against 1).
+Dislodged from par (2 against 1).
+BUR: A fla -> cal
+Failed because ENG: A cal -> lon failed.
+BUR: F hol -> dov
+Bounced with lon (1 against 1).
+BUR: A lux -> lor
 ENG:
-ENG: F edi -> nth
-ENG: A lvp -> yor
-ENG: F lon -> eng
+ENG: A cal -> lon
+Failed because ENG: F lon -> dov failed.
+ENG: F ech -> bch
+ENG: A guy -> ara
+ENG: F lon -> dov
+Bounced with hol (1 against 1).
+ENG: A nmd -> par
+Bounced with orl (1 against 1).
 FRA:
-FRA: F bre -> mao
-FRA: A mar -> spa
-FRA: A par -> bur
-GER:
-No order for unit at ber. Hold order assigned.
-No order for unit at kie. Hold order assigned.
-
-GER: A ber Holds
-GER: F kie Holds
-GER: A mun -> boh
-ITL:
-ITL: F nap -> apu
-ITL: A rom -> tus
-ITL: A ven Holds
-RUS:
-RUS: A mos -> ukr
-RUS: F sev Holds
-RUS: F stp/sc -> fin
-RUS: A war Holds
-TUR:
-TUR: F ank -> bla
-TUR: A con -> bul
-TUR: A smy -> arm
+FRA: A dau Supports A par -> dij
+FRA: A orl -> par
+Bounced with nmd (1 against 1).
+FRA: A par -> dij
+FRA: A pro -> tou
+FRA: A tou -> poi

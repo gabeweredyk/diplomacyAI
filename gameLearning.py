@@ -5,7 +5,7 @@ R = 1.2
 def updateSocialValues():
     global previousMoves, self
     fillPreviousMoves()
-    increaseTerrValues(previousMoves)
+    increaseTerrValues()
     updateTrust(self)    
 
 def fillPreviousMoves():
@@ -47,13 +47,14 @@ def updateTrust(country):
                 trust[i] /= R
     # print("Updated trust: " + str(trust))
 
-def increaseTerrValues(moves):
+def increaseTerrValues():
     global territories, self, attemptedMoves
     interests = {}
     for i in territories:
         interests[i] = 0
-    for i in moves:
-        interests[i["terr"][-1]] += 1
+    for j in previousMoves.values():
+        for i in j:
+            interests[i["terr"][-1]] += 1
     for i in attemptedMoves:
         interests[i["terr"][-1]] -= 1
     for terr, intertest in interests.items():

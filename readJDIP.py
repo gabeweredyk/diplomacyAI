@@ -2,8 +2,8 @@ import numpy as np
 
 units = dict()
 paths = dict()
-previousMoves = dict()
-promisedMoves = dict()
+previousMoves = {"ENG":[],"FRA":[],"BUR":[]}
+promisedMoves = {"ENG":[],"FRA":[],"BUR":[]}
 requestedMoves = dict()
 attemptedMoves = []
 moves = []
@@ -79,7 +79,7 @@ def fillTerritories():
     
     # for i in units.keys():
         # territories[i]["owner"] = units[i]["owner"]
-    territories = sortByValues(territories, "score")
+    
 
 def initialTerritoryScore():
     global territories, paths
@@ -95,6 +95,7 @@ def initialTerritoryScore():
                     score += 50
         score += 50 * abs( len(paths[i]) - 5 )
         territories[i]["score"] = score
+    territories = sortByValues(territories, "score")
 
 buildBoard()
 

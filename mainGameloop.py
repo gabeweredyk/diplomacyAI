@@ -3,6 +3,7 @@ from gabeAnalyzeMoves import *
 from messageAnalysis import *
 
 # from trustFactor import *
+from gameLearning import updateSocialValues
 
 from analyzeRetreats import *
 from placeUnits import *
@@ -25,11 +26,14 @@ while active:
             messagesToSend = {"ENG":"","FRA":"","BUR":""}
             movesToSend = analyzeMoves(self, {})
             interpretMessage(movesToSend)
+            previousMoves = moves
         case "retreat":
             terrsToRetreat = input("Units in these territories need to retreat (separate by commas, no spaces): ")
             analyzeRetreats(terrsToRetreat)
         case "adjustment":
             placeUnits(self)
+        case "learn":
+            updateSocialValues()
 
         # the following are placeholder game-ending states
         case "Lose":
