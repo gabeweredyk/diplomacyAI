@@ -1,12 +1,19 @@
 from readJDIP import *
-from analyzeRetreats import *
-from placeUnits import *
 from gabeAnalyzeMoves import *
 from messageAnalysis import *
-from trustFactor import *
+
+# from trustFactor import *
+
+from analyzeRetreats import *
+from placeUnits import *
+
+
 import random
 
 active = True
+
+
+
 
 while active:
     # takes the current turn and uses that to decide what it should be doing
@@ -17,11 +24,10 @@ while active:
     # print(promisedMoves)
     match turn[-1]:
         case "movement":
-            updateTrust("TUR")
-            promisedMoves = {}
-            requestedMoves = {}
-            interpretMessage()
-            analyzeMoves("TUR")
+            messagesToSend = {"ENG":"","FRA":"","BUR":""}
+            movesToSend = analyzeMoves(self, {})
+            interpretMessage(movesToSend)
+            
         case "retreat":
             terrsToRetreat = input("Units in these territories need to retreat (separate by commas, no spaces): ")
             analyzeRetreats(terrsToRetreat)

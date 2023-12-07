@@ -1,16 +1,13 @@
 from readJDIP import *
-self = "TUR"
-promisedMoves = {}
-requestedMoves = {}
-replies = {}
+from trustFactor import *
+from gabeAnalyzeMoves import analyzeMoves
 
-
+promisedMoves = {"FRA":[],"ENG":[],"BUR":[]}
+requestedMoves = {"FRA":[],"ENG":[],"BUR":[]}
 
 for i in countries:
     promisedMoves[i] = []
     requestedMoves[i] = []
-
-
 
 
 def ownsTerritory(player, territory):
@@ -18,8 +15,9 @@ def ownsTerritory(player, territory):
     if territory not in units.keys(): return False
     return units[territory]["owner"] == player
 
-def interpretMessage():
-    global countries
+def interpretMessage(movesToSend):
+    global countries, messagesToSend
+    usedUnits = {}
     player = ""
     while player != "BREAK":
         player = input("From: ").strip()
@@ -36,10 +34,12 @@ def interpretMessage():
         # Player = "AUS" or something like that
         for i in range(len(message)):
             word = message[i]
-            if word[-1] == ".":
-                word = word[:-1]
             match i:
                 case 0:
+                    if word == "Affirmative":
+                        print(movesToSend)
+                        promisedMoves[player].append(movesToSend[player])
+                        usedUnits[ movesToSend[player]["terr"][1] ] = movesToSend[player]["terr"][2]
                     selfActor = word != "I"
                     otherActor = word != "You"
                 case 1:
@@ -63,7 +63,11 @@ def interpretMessage():
                 case "convoy":
                     move = {"type":"Convoy","terr":[message[i + 12], message[i + 4], message[i + 6]]}
                     storeMove(player, move)
+        print(usedUnits)
+        analyzeMoves(self, usedUnits)
         # print(promisedMoves)
+        
+
 
 
 def storeMove(country, move):

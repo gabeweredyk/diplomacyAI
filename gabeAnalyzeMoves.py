@@ -3,9 +3,7 @@ import numpy as np
 from collections import OrderedDict
 import copy
 
-messagesToSend = {"ENG":"","FRA":"","BUR":""}
-
-#Credit for this algorithim: https://www.geeksforgeeks.org/python-sort-python-dictionaries-by-key-or-value/
+#Credit for this algorithm: https://www.geeksforgeeks.org/python-sort-python-dictionaries-by-key-or-value/
 def sortByValues(dict):
     keys = list(dict.keys())
     values = list(dict.values())
@@ -16,8 +14,9 @@ def sortByValues(dict):
 # Probablity moves to the best territoy (as deemed by the bot)
 predProbability = {"AUS":0.5,"ENG":0.5,"FRA":0.5,"GER":0.5,"ITL":0.5,"RUS":0.5,"TUR":0,"BUR":0.5}
 
-def analyzeMoves(country):
-    global units, paths, countries, territories, trust, predProbability, messagesToSend
+#used units is populated with a dictionary that points a usedUnit to where it gives strength
+def analyzeMoves(country, usedUnits):
+    global units, paths, countries, territories, trust, predProbability, messagesToSend, movesToSend
 
     # Unit count counts the total number of units the bot has at any given time
     unitCount = 0
@@ -75,22 +74,29 @@ def analyzeMoves(country):
         for j in i.keys():
             expectedStrengths[j] += i[j]
 
+    #accounts for agreed upon moves
+    for i in usedUnits.keys():
+        print(usedUnits[i])
+        expectedStrengths[usedUnits[i]] -= 2
+        if i == usedUnits[i]: expectedStrengths[usedUnits[i]] -= 0.5
+
     # sortByValues here sorts the dictionary by the expected strengths of each territory, giving us a list of the most dangerous territories
     expectedStrengths = sortByValues(expectedStrengths)
 
-    #Needed strengths is the ceiling of the expected strengths, except when the expected strength is exactly 0 (No other player can reach it)
+    #Needed strengths is the ceiling of the expected strengths, except when the expected strength is leq than 0 (No other player can reach it)
     neededStrengths = {}
     for i in neighbors:
-        if expectedStrengths[i] == 0: neededStrengths[i] = 0
+        if expectedStrengths[i] <= 0: neededStrengths[i] = 0
         else: neededStrengths[i] =  int( expectedStrengths[i] + 1)
+    print(expectedStrengths.keys() )
 
     #For every territory in neighbor, get all the units that could possibly assist in an attack/defense on that territory
     availableUnits = {}
     for i in neighbors:
         availableUnits[i] = []
-        if i in units.keys() and units[i]["owner"] == country: availableUnits[i].append(i)
+        if i in units.keys() and units[i]["owner"] == country and i not in usedUnits.keys(): availableUnits[i].append(i)
         for j in paths[i]:
-            if j not in units.keys() or units[j]["owner"] != country: continue
+            if j not in units.keys() or units[j]["owner"] != country or i in usedUnits.keys(): continue
             if units[j]["type"] == "a" and territories[i]["type"] == "Sea" or units[j]["type"] == "f" and territories[i]["type"] == "Land": continue
             availableUnits[i].append(j)
 
@@ -106,7 +112,7 @@ def analyzeMoves(country):
     insufficientSupport = {}
     #deltaPosition tracks where each unit ideally ends up at the end of the round. Implemented to help with move notation
     deltaPosition = {}
-    pickableUnits =  copy.deepcopy(availableUnits)
+    pickableUnits = copy.deepcopy(availableUnits)
     #Immobile units are units that are stationary because the bot has decided it's better to hold that territory than to move, but are still free to support other attacks
     #The bot minimizes the amount of moves that are simply "Hold ter"
     immobileUnits = []
@@ -141,7 +147,7 @@ def analyzeMoves(country):
 
         n = neededStrengths[i]
         first = ""
-        #The algorithim this while loop performs:
+        #The algorithm this while loop performs:
         """
         If I'm allocating units to a territory with a unit on it currently
             Then make that unit hold and have as many as I need support it
@@ -196,13 +202,13 @@ def analyzeMoves(country):
 
     #Then bamn! moves
     print(moves)
-    
-    #Goes through the territories it didnt feel condifent in claiming
+
+    #Goes through the territories it didnt feel confident in claiming
     for i in insufficientSupport.keys():
         #The bot shouldn't be proposing attacks on territories it currently has
         if i in deltaPosition.keys(): continue
-        
-        #The bot looksfor the player it trusts the most to carry out this cooperative mood, this person is the recipient
+        if i not in units.keys() and territories[i]["owner"] == "" : continue
+        #The bot looks for the player it trusts the most to carry out this cooperative move, this person is the recipient
         recipient = ""
         recipientUnit = ""
         maxTrust = 0
@@ -215,13 +221,13 @@ def analyzeMoves(country):
             maxTrust = trust[r]
         
         #If the bot couldn't find anyone around to help or has already reached out, it quits
-        if recipient == "" or messagesToSend[recipient] != "": continue
+        if recipient == "" or recipient == country or messagesToSend[recipient] != "": continue
         #If the bot is suggesting taking one of the recipient's territories or attacking one of its units, it quits (Learned our lesson)
         if (i in units.keys() and units[i]["owner"] == recipient) or territories[i]["owner"] == recipient : continue
-        #Suggests doing this with the bots least valuable unit, might want to tweak this algorithim so it uses its agent in its last move instead
+        #Suggests doing this with the bots least valuable unit, might want to tweak this algorithm so it uses its agent in its last move instead
         #But this seems to be working fine
-        unit = leastValuableUnit(availableUnits, i, [])
-        #If it can't find a unit to suggest the move with, it quits
+        unit = leastValuableUnit(availableUnits, i, [recipientUnit])
+        #If it can't find a unit to suggest the move with, it
         if unit == '': continue
         #Determines what tone it should take with the recipeint
         demand = 0
@@ -230,10 +236,11 @@ def analyzeMoves(country):
         if T > 1.5: demand = 2
         #Constructs a string seen in stringbuilder and abuses dictionaries
         message = "We " + {0:"might want to",1:"should",2:"must"}[demand] + " support the " + {'a':'Army','f':'Fleet'}[units[unit]["type"]] + " in **" + unit + "** advancing into **" + i + "** with the unit in **" + recipientUnit + "**." 
+        movesToSend[recipient] = {"Type":"Support","terr":[recipientUnit, unit, i]}
         messagesToSend[recipient] = message
 
     print(messagesToSend)
-    return
+    return movesToSend
 
     
             
@@ -252,10 +259,3 @@ def leastValuableUnit(availableUnits, terr, immobileUnits):
             minReliance = i 
     return minReliance
 
- 
-print("For France:")
-analyzeMoves("FRA")
-# print("For England:")
-# analyzeMoves("ENG")
-# print("For Burgandy:")
-# analyzeMoves("BUR")

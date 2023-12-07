@@ -4,6 +4,12 @@ units = dict()
 paths = dict()
 previousMoves = dict()
 
+messagesToSend = {"ENG":"","FRA":"","BUR":""}
+movesToSend = {"ENG":{},"FRA":{},"BUR":{}}
+trust = {"FRA":1,"ENG":1,"BUR":1}
+externalTrust = {"FRA":1,"ENG":1,"BUR":1}
+
+
 def sortByValues(dict, value):
     keys = list(dict.keys())
     realValues = list(dict.values())
